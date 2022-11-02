@@ -1,0 +1,4 @@
+"0","# generate Vignette
+library(IEPAtools)
+library(devtools)
+devtools::build_vignettes()"

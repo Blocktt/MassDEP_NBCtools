@@ -1,0 +1,6 @@
+"0","# Restart R within RStudio:  Ctrl + Shift + F10
+myPkg <- \"IEPAtools\"
+library(myPkg, character.only = TRUE)
+help(package=(myPkg))
+#?metric.scores 
+citation(myPkg)"

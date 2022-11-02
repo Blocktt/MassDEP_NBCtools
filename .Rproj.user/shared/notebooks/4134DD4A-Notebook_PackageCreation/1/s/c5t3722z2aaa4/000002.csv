@@ -1,0 +1,4 @@
+"0","# Create PkgDown Website
+usethis::use_pkgdown()
+# Update the files
+pkgdown::build_site()"

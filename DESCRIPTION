@@ -1,0 +1,32 @@
+Package: MassDEPNBCtools
+Type: Package
+Title: Used to determine natural background conditions in Massachusetts waterbodies.
+Version: 0.0.0.9000
+Authors@R: c(
+  person("Ben", "Block", email="Ben.Block@tetratech.com", role=c("cre", "aut")))
+Maintainer: Ben Block <Ben.Block@tetratech.com>
+Description: Tools to determine natural background conditions.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.2
+Imports:
+  shiny,
+  shinydashboard,
+  shinydashboardPlus,
+  shinyjs,
+  DT,
+  ggplot2,
+  readxl,
+  reshape2,
+  knitr,
+  dplyr,
+  utils,
+  maps,
+  rmarkdown,
+  markdown,
+  tidyr,
+  leaflet,
+  mapview
+VignetteBuilder: knitr
+URL: https://github.com/Blocktt/IEPAtools
