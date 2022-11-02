@@ -1,5 +1,5 @@
 ---
-title: "MassDEP_NBCtools-NEWS"
+title: "MassNBCtools-NEWS"
 author: "Ben.Block@tetratech.com"
 date: "`r Sys.time()`"
 output: github_document
@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 ```{r, echo = FALSE}
 cat(paste0("Last Update: ",Sys.time()))
 ```
-# MassDEP_NBCtools 1.3.5.9014 (2022-11-01)
+# MassNBCtools 1.3.5.9014 (2022-11-01)
 
 * update: Created basic outline of tools
     + Added outline, basic info, etc.

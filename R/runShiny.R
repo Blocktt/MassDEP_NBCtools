@@ -1,14 +1,14 @@
 #' @title run Shiny Example
 #'
-#' @description Launches Shiny app for MassDEP_NBCtools package.
+#' @description Launches Shiny app for MassNBCtools package.
 #'
-#' @details The Shiny app based on the R package MassDEP_NBCtools is included in
+#' @details The Shiny app based on the R package MassNBCtools is included in
 #' the R package. This function launches that app.
 #'
 #' The Shiny app is online at:
-#' https://tetratech-wtr-wne.shinyapps.io/MassDEP_NBCtools
+#' https://tetratech-wtr-wne.shinyapps.io/MassNBCtools
 #'
-#' @param shinyappname Shiny appplication name, default = MassDEP_NBCtools
+#' @param shinyappname Shiny appplication name, default = MassNBCtools
 #'
 #' @examples
 #' \dontrun{
@@ -18,14 +18,14 @@
 #' }
 #
 #' @export
-runShiny <- function(shinyappname = "MassDEP_NBCtools"){##FUNCTION.START
+runShiny <- function(shinyappname = "MassNBCtools"){##FUNCTION.START
   #
   appDir <- system.file("shiny-examples"
                         , shinyappname
-                        , package = "MassDEP_NBCtools")
+                        , package = "MassNBCtools")
   #
   if (appDir == "") {
-    stop("Could not find example directory. Try re-installing `MassDEP_NBCtools`."
+    stop("Could not find example directory. Try re-installing `MassNBCtools`."
          , call. = FALSE)
   }
   #

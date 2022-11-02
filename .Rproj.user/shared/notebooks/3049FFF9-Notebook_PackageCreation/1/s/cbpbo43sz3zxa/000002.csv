@@ -6,7 +6,7 @@ file.remove(\"NEWS.html\")
 #file.remove(\"NEWS.md\")
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Library Name
-myPkg <- \"IEPAtools\"
+myPkg <- \"MassNBCtools\"
 # Load Library
 library(devtools)
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -26,7 +26,7 @@ devtools::document()
 setwd(\"..\") # return to root directory first
 devtools::install(myPkg, quick=FALSE, reload=TRUE, build_vignettes = TRUE)
 
-myPkg <- \"IEPAtools\"
+myPkg <- \"MassNBCtools\"
 # blank row above allows for the code to continue instead of waiting for user response to pkg updates.
 ## Reload library
 library(myPkg, character.only = TRUE)

@@ -12,7 +12,7 @@ dashboardPage(
   , sidebar = dashboardSidebar(db_main_sb("leftsidebarmenu"))
   , body = dashboardBody(db_main_body("dbBody"))
   , footer = dashboardFooter(left = pkg_version
-                             , right = "https://github.com/Blocktt/MassDEP_NBCtools")
+                             , right = "https://github.com/Blocktt/MassNBCtools")
 ) ## dashboardPage ~ END
 
 # https://rstudio.github.io/shinydashboard/get_started.html

@@ -1,4 +1,4 @@
-Package: MassDEPNBCtools
+Package: MassNBCtools
 Type: Package
 Title: Used to determine natural background conditions in Massachusetts waterbodies.
 Version: 0.0.0.9000

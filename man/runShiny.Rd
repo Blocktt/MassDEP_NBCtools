@@ -4,20 +4,20 @@
 \alias{runShiny}
 \title{run Shiny Example}
 \usage{
-runShiny(shinyappname = "MassDEP_NBCtools")
+runShiny(shinyappname = "MassNBCtools")
 }
 \arguments{
-\item{shinyappname}{Shiny appplication name, default = MassDEP_NBCtools}
+\item{shinyappname}{Shiny appplication name, default = MassNBCtools}
 }
 \description{
-Launches Shiny app for MassDEP_NBCtools package.
+Launches Shiny app for MassNBCtools package.
 }
 \details{
-The Shiny app based on the R package MassDEP_NBCtools is included in
+The Shiny app based on the R package MassNBCtools is included in
 the R package. This function launches that app.
 
 The Shiny app is online at:
-https://tetratech-wtr-wne.shinyapps.io/MassDEP_NBCtools
+https://tetratech-wtr-wne.shinyapps.io/MassNBCtools
 }
 \examples{
 \dontrun{
