@@ -1,8 +1,8 @@
-# Water temperature site selection Panel
+# Water temperature temperature spikes Panel
 
 function() {
-  tabPanel("tabpan_temp_site"
-           , h2("Site selection")
+  tabPanel("tabpan_temp_spike"
+           , h2("Temperature spikes")
            , p(paste0("Version: ", pkg_version))
            , fluidPage(h2("About")
                        , p("Background info")

@@ -1,7 +1,7 @@
 # Shiny Global File
 
 # Version ----
-pkg_version <- "0.0.0.9000"
+pkg_version <- "0.0.0.9002"
 
 # Packages----
 library(shiny)
@@ -26,12 +26,24 @@ library(mapview) # used to download leaflet map
 db_main_sb           <- source("external/db_main_sb.R", local = TRUE)$value
 db_main_body         <- source("external/db_main_body.R", local = TRUE)$value
 tab_code_about       <- source("external/tab_about.R", local = TRUE)$value
-tab_code_temp_site<- source("external/tab_temp_site.R", local = TRUE)$value
-tab_code_temp_disturb<- source("external/tab_temp_disturb.R", local = TRUE)$value
+## Temperature
+tab_code_temp_AU<- source("external/tab_temp_AU.R", local = TRUE)$value
+tab_code_temp_crit<- source("external/tab_temp_crit.R", local = TRUE)$value
+tab_code_temp_LC<- source("external/tab_temp_LC.R", local = TRUE)$value
+tab_code_temp_pointsrc<- source("external/tab_temp_pointsrc.R", local = TRUE)$value
+tab_code_temp_dams<- source("external/tab_temp_dams.R", local = TRUE)$value
+tab_code_temp_withdrwl<- source("external/tab_temp_withdrwl.R", local = TRUE)$value
+tab_code_temp_spike<- source("external/tab_temp_spike.R", local = TRUE)$value
+
+## Dissolved oxygen
 tab_code_DO_site<- source("external/tab_DO_site.R", local = TRUE)$value
 tab_code_DO_disturb<- source("external/tab_DO_disturb.R", local = TRUE)$value
+
+## pH
 tab_code_pH_site<- source("external/tab_pH_site.R", local = TRUE)$value
 tab_code_pH_disturb<- source("external/tab_pH_disturb.R", local = TRUE)$value
+
+## TP
 tab_code_TP_site<- source("external/tab_TP_site.R", local = TRUE)$value
 tab_code_TP_disturb<- source("external/tab_TP_disturb.R", local = TRUE)$value
 

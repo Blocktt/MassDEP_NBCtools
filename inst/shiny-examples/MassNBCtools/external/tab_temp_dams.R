@@ -1,8 +1,8 @@
 # Water temperature disturbance Panel
 
 function() {
-  tabPanel("tabpan_temp_dist"
-           , h2("Site disturbance")
+  tabPanel("tabpan_temp_dams"
+           , h2("Dams")
            , p(paste0("Version: ", pkg_version))
            , fluidPage(h2("About")
                        , p("Background info")
