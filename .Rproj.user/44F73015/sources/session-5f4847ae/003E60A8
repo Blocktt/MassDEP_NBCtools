@@ -1,0 +1,26 @@
+{
+    "id": "003E60A8",
+    "path": "C:/Users/ben.block/OneDrive - Tetra Tech, Inc/GitHub/MassNBCtools/inst/shiny-examples/MassNBCtools/external/db_main_sb.R",
+    "project_path": "inst/shiny-examples/MassNBCtools/external/db_main_sb.R",
+    "type": "r_source",
+    "hash": "1717283965",
+    "contents": "",
+    "dirty": false,
+    "created": 1674764154141.0,
+    "source_on_save": false,
+    "relative_order": 5,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "17,72",
+        "scrollLine": "6"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1674764194,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1674764194108,
+    "read_only": false,
+    "read_only_alternatives": []
+}

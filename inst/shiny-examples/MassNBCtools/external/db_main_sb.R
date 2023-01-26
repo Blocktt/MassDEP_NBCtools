@@ -15,7 +15,7 @@ function(id) {
                              , menuSubItem("Input: General Evaluation"
                                            , tabName = "tab_Gen_input"
                                            , icon = icon("cog", lib = "glyphicon"))
-                             , menuSubItem("Output:"
+                             , menuSubItem("Output: Results and Download"
                                            , tabName = "tab_Gen_output"
                                            , icon = icon("cog", lib = "glyphicon"))
                   )## menuItem ~ Gen Eval

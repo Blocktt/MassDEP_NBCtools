@@ -15,8 +15,9 @@ function() {
                           ,placeholder = "Type any additional notes here!")
              ) # sidebarPanel
              , mainPanel(
-               DT::dataTableOutput("temp_test_DT")
-               , leafletOutput("mymap")
+               h2("nothing here")
+               # DT::dataTableOutput("temp_test_DT")
+               # , leafletOutput("mymap")
              ) # mainPanel
            ) # sidebarLayout
   )##tabPanel ~ END

@@ -4,11 +4,7 @@ function() {
   tabPanel("tabpan_about"
            , h2("About")
            , p(paste0("Version: ", pkg_version))
-           , fluidPage(h2("About")
-                       , p("Background info")
-                       
-                       
+           , fluidPage(h2("Background Information")
            )## fluidPage ~ END
-           # , includeHTML(file.path("www", "rmd_html", "ShinyHTML_About.html"))
   )##tabPanel ~ END
 }##FUNCTION ~ END
