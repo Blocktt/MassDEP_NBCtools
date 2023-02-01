@@ -20,6 +20,21 @@ dams_shp <- sf::st_read(dsn = fn_shp, layer = "DAMS_PT") %>%
   sf::st_transform('+proj=longlat +datum=WGS84')
 object.size(dams_shp)
 
+## superfund ####
+SEMS_shp <- sf::st_read(dsn = fn_shp, layer = "SEMS") %>% 
+  sf::st_transform('+proj=longlat +datum=WGS84')
+object.size(SEMS_shp)
+
+## NPDES ####
+NPDES_shp <- sf::st_read(dsn = fn_shp, layer = "NPDES_Major") %>% 
+  sf::st_transform('+proj=longlat +datum=WGS84')
+object.size(NPDES_shp)
+
+## TRIs ####
+TRIs_shp <- sf::st_read(dsn = fn_shp, layer = "TRIs") %>% 
+  sf::st_transform('+proj=longlat +datum=WGS84')
+object.size(TRIs_shp)
+
 ## basins ####
 basins_shp <- sf::st_read(dsn = fn_shp, layer = "305BasinMerge2022") %>% 
   sf::st_transform('+proj=longlat +datum=WGS84')
@@ -52,11 +67,31 @@ polylines_simp <- rmapshaper::ms_simplify(polylines_2249
                                        , keep_shapes = TRUE) # simplify polygons
 polylines_final <- sf::st_transform(polylines_simp, 4326) # transform to WGS 1984
 
+## Zone II ####
+Zone2_shp <- sf::st_read(dsn = fn_shp, layer = "ZONE2_POLY_DISSOLVE") %>% 
+  sf::st_transform('+proj=longlat +datum=WGS84')
+
+Zone2_2249 <- sf::st_transform(Zone2_shp, 2249) # project data
+Zone2_simp <- rmapshaper::ms_simplify(Zone2_2249
+                                          , keep_shapes = TRUE) # simplify polygons
+Zone2_final <- sf::st_transform(Zone2_simp, 4326) # transform to WGS 1984
 
 # Save as RDA for use in package ####
 ## dams ####
 GISlayer_dams <- dams_shp
 usethis::use_data(GISlayer_dams, overwrite = TRUE)
+
+## superfunds ####
+GISlayer_SEMS <- SEMS_shp
+usethis::use_data(GISlayer_SEMS, overwrite = TRUE)
+
+## NPDES ####
+GISlayer_NPDES <- NPDES_shp
+usethis::use_data(GISlayer_NPDES, overwrite = TRUE)
+
+## TRIs ####
+GISlayer_TRIs <- TRIs_shp
+usethis::use_data(GISlayer_TRIs, overwrite = TRUE)
 
 ## basins ####
 GISlayer_AUpoly <- basins_final
@@ -65,6 +100,10 @@ usethis::use_data(GISlayer_AUpoly, overwrite = TRUE)
 ## AU polylines ####
 GISlayer_AUflow <- polylines_final
 usethis::use_data(GISlayer_AUflow, overwrite = TRUE)
+
+## Zone II ####
+GISlayer_Zone2 <- Zone2_final
+usethis::use_data(GISlayer_Zone2, overwrite = TRUE)
 
 # Helpful links
 # https://www.r-bloggers.com/2021/03/simplifying-geospatial-features-in-r-with-sf-and-rmapshaper/

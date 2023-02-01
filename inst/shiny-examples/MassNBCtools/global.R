@@ -57,16 +57,27 @@ df_all_AUs <- df_305BasinMerge2022 %>%
   top_n(10, AU_ID)
 
 # GIS/Map data ####
-
-# MassDEP Dams
-load(file.path(".","GIS_Data", "GISlayer_dams.rda"))
-
-# MassDEP AU polygons
+# AU polygons
 load(file.path(".","GIS_Data", "GISlayer_AUpoly.rda"))
 
-# MassDEP AU flowlines
+# AU polygon centroids
+df_AUCentroids <-read.csv("Data/AU_Centroids.csv")
+
+# AU flowlines
 load(file.path(".","GIS_Data", "GISlayer_AUflow.rda"))
 
-# pre-process and save to .rda files
-# add popups as distractions
-# create centroids for all AUs before loading
+# Zone II polygons
+load(file.path(".","GIS_Data", "GISlayer_Zone2.rda"))
+
+# Dams
+load(file.path(".","GIS_Data", "GISlayer_dams.rda"))
+
+# Superfunds
+load(file.path(".","GIS_Data", "GISlayer_SEMS.rda"))
+
+# NPDES
+load(file.path(".","GIS_Data", "GISlayer_NPDES.rda"))
+
+# TRIs
+load(file.path(".","GIS_Data", "GISlayer_TRIs.rda"))
+
