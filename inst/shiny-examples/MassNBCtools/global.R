@@ -70,3 +70,7 @@ GISlayer_AUpoly <- sf::st_read(file.path(".","GIS_Data"
 GISlayer_AUflow <- sf::st_read(file.path(".","GIS_Data"
                                        , "2022arcs_mergeDRAFT.shp")) %>%
   sf::st_transform('+proj=longlat +datum=WGS84')
+
+# pre-process and save to .rda files
+# add popups as distractions
+# create centroids for all AUs before loading

@@ -145,4 +145,13 @@ shinyServer(function(input, output) {
     #     addMiniMap(toggleDisplay = TRUE, tiles = providers$Esri.WorldStreetMap)
     # })#renderLeaflet ~ END
     
+    # Output info ####
+    output$output_analyst <- renderText({input$input_analyst})
+    output$output_AU_choice <- renderText({input$input_AU_choice})
+    output$output_Nat_Land_choice <- renderText({input$input_Nat_Land_choice})
+    output$output_Dam_choice <- renderText({input$input_Dam_choice})
+    output$output_PtSrc_choice <- renderText({input$input_PtSrc_choice})
+    output$output_Withdrawal_choice <- renderText({input$input_Withdrawal_choice})
+    output$output_notes <- renderText({input$input_notes})
+
 })##shinyServer ~ END
