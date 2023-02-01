@@ -30,3 +30,5 @@ Imports:
   mapview
 VignetteBuilder: knitr
 URL: https://github.com/Blocktt/IEPAtools
+Depends: 
+    R (>= 2.10)

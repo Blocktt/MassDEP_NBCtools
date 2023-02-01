@@ -1,0 +1,15 @@
+# test2 <- sf::st_transform(test, 4326)
+# 
+# object.size(basins_shp)
+# object.size(basins_simp)
+# object.size(test)
+# 
+# leaflet() %>% 
+#   addPolygons(data = basins_shp, color = "red", weight = 2
+#               , fill = FALSE)%>% 
+#   addPolygons(data = basins_final, color = "blue", weight = 2
+#               , fill = FALSE)%>% 
+#   addPolygons(data = test2, color = "green", weight = 2
+#               , fill = FALSE)%>%
+#   addTiles() %>% 
+#   addProviderTiles(providers$Esri.WorldStreetMap)

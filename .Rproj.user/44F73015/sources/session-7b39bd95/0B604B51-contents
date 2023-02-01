@@ -1,0 +1,430 @@
+#### R script that calculates oxythermal habitat metrics
+# Developed for MassDEP lake multiprobe data
+# See MassDEP NBC Task 5.1c memo for details.
+#
+# Developed by Ben Block, Tetra Tech
+# Ben.Block@tetratech.com, Date completed: 2023-01-30
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# R version 4.1.2 (2021-11-01) -- "Bird Hippie"
+
+#clear global environment
+rm(list=ls())
+
+# Load libraries ####
+library(dplyr)
+library(readr)
+library(tidyr)
+library(ggplot2)
+library(rLakeAnalyzer)
+library(zoo)
+
+# Declare directories ####
+wd <- getwd()
+fn.data1 <- "MassDEP_oxythermal_metric_input_example.csv"
+myDate <- format(Sys.Date(), "%Y%m%d")
+plot.dir <- paste0("/Plots_",myDate,"/")
+
+# create plots folder
+boo_Results <- dir.exists(file.path(wd, plot.dir))
+if(boo_Results==FALSE){
+  dir.create(file.path(wd, plot.dir))
+}
+
+# Read data files ####
+df_WQ <- read_csv(file.path(wd, fn.data1)
+                  , na = c("NA",""), trim_ws = TRUE, skip = 0
+                  , col_names = TRUE, guess_max = 100000)
+
+# Required fields ####
+# There are 10 fields referenced in this script. If fields are missing,
+## an error will be displayed.
+### Errors will be given if fields are misspelled from the required.
+
+required_columns <- c("UNIQUE_ID", "DATE", "WATERBODY", "LATITUDE", "LONGITUDE"
+                      , "nDEPTH", "nTEMP", "nDO", "MAX_DEPTH_WTRBDY", "WTRBDY_AREA")
+
+column_names <- colnames(df_WQ)
+
+col_req_match <- required_columns %in% column_names
+col_missing <- required_columns[!col_req_match]
+(col_missing) 
+# character(0) indicates no fields are missing
+# If columns are listed, either rename them if present or add that data.
+
+# Format dataset ####
+df_input <- df_WQ
+df_input <- as.data.frame(df_input)
+
+# Create SiteDate field ####
+df_input <- df_input %>% 
+  mutate(SiteDate = paste0(UNIQUE_ID,"_",DATE)) %>% 
+  select(SiteDate, everything())
+
+# Oxythermal metrics loop ####
+Unique_SiteDates <- unique(df_input$SiteDate)
+result_list <- list()
+plot_list_temp <- list()
+plot_list_DO <- list()
+counter <- 0
+
+for(i in Unique_SiteDates){
+  
+  counter <- counter + 1
+  ## filter data ####
+  subset.data <- df_input %>% 
+    filter(SiteDate == i) %>% 
+    select(SiteDate, UNIQUE_ID, WTRBDY_AREA, MAX_DEPTH_WTRBDY
+           , DATE, nDEPTH, nTEMP, nDO)
+  # duplicate first row and set depth to 0.001. 
+  # this ensures that we always have values at 1m
+  firstrow <- subset.data %>%
+    filter(row_number()==1) %>%
+    mutate(nDEPTH = 0.001)
+  
+  # recombine data
+  subset.data2 <- rbind(firstrow, subset.data)
+  subset.data2 <- subset.data2 %>%
+    distinct(.)
+  
+  # record metadata ####
+  my_UniqueID <- unique(subset.data$UNIQUE_ID)
+  my_SiteDate <- unique(subset.data$SiteDate)
+  my_Date <- unique(subset.data$DATE)
+  
+  print(my_SiteDate)
+  
+  # depth intervals ####
+  orig_interval <- subset.data2$nDEPTH
+  orig_minDepth <- min(subset.data$nDEPTH)
+  orig_maxDepth <- max(subset.data$nDEPTH)
+  generic_interval <- seq(from = 1, to = round(orig_maxDepth), by = 1)
+  new_interval <- sort(c(generic_interval, orig_interval))
+  
+  # create adjusted probe data ####
+  df_adj_probe <- as.data.frame(cbind(rep(my_SiteDate
+                                      ,length(new_interval))
+                                  , new_interval))
+  
+  colnames(df_adj_probe) <- c("SiteDate", "nDEPTH")
+  
+  df_adj_probe$nDEPTH <- as.numeric(df_adj_probe$nDEPTH)
+  
+  df_adj_probe2 <- df_adj_probe %>% 
+    distinct(.) %>% 
+    left_join(., subset.data2, by = c("nDEPTH" = "nDEPTH"
+                                      , "SiteDate" = "SiteDate"))
+  lastrow <- df_adj_probe2 %>%
+    filter(row_number()==n())
+  
+  # if/else statement to remove last row before interpolation if NA
+  # used to ensure that the last row in the dataset is not NA
+  if (is.na(lastrow$nTEMP)) {
+    Scnd2Last <- df_adj_probe2 %>%
+      filter(row_number()==(n()-1)) %>%
+      mutate(nDEPTH = ceiling(nDEPTH))
+    
+    df_adj_probe3 <- df_adj_probe2 %>% 
+      slice(1:(n()-2))
+    
+    df_adj_probe3 <- rbind(df_adj_probe3, Scnd2Last)
+  } else {
+    df_adj_probe3 <- df_adj_probe2
+  } # end if/else statement
+  
+  ## Interpolate results ####
+  # Used to interpolate results for integer depths
+  df_adj_probe4 <- df_adj_probe3 %>% 
+    select(SiteDate, nDEPTH, nTEMP, nDO)%>%
+    mutate(nTEMP = round(zoo::na.approx(nTEMP),1)
+           , nDO = round(zoo::na.approx(nDO),1))
+  
+  ## estimate bathymetry ####
+  # if/else statement to to skip bathymetry calculations if max depth or
+  # waterbody area are NA
+  if (sum(is.na(subset.data2$MAX_DEPTH_WTRBDY)) >0 |
+      sum(is.na(subset.data2$WTRBDY_AREA))) {
+    
+    maxdepth <- -999
+    lake_area <- -999
+    totVol_m3 <- -999
+    
+    df_adj_probe5 <- df_adj_probe4 %>% 
+      mutate(Volume_m3 = -999)
+    
+  } else {
+    lake_area <- max(subset.data2$WTRBDY_AREA)
+    maxdepth <- max(subset.data2$MAX_DEPTH_WTRBDY)
+    
+    depth_intervals <- seq(from = 0, to = maxdepth, by = 1)
+    depth_intervals <- c(depth_intervals, maxdepth, ceiling(maxdepth))
+    depth_intervals <- unique(depth_intervals)
+    
+    # estimate area-at-depth
+    est_bathy <- rLakeAnalyzer::approx.bathy(Zmax = maxdepth
+                                             , lkeArea = lake_area
+                                             , method = "cone"
+                                             , depths = depth_intervals)
+    est_bathy[is.na(est_bathy)] <- 0
+    
+    # estimate volume-at-depth
+    est_bathy2 <- est_bathy%>%
+      mutate(h = depths - lag(depths)
+             , h3 = h/3
+             , area_calc = lag(Area.at.z) + Area.at.z
+             + sqrt(lag(Area.at.z) * Area.at.z)
+             , Volume_m3 = h3*area_calc) %>% 
+      select(-c(h, h3, area_calc, Area.at.z))
+    
+    est_bathy2[is.na(est_bathy2)] <- 0
+    
+    # total volume
+    totVol_m3 <- round(sum(est_bathy2$Volume_m3),0)
+    
+    # join bathymetry data to multiprobe data
+    df_adj_probe5 <- df_adj_probe4 %>% 
+      left_join(., est_bathy2, by = c("nDEPTH" = "depths")) %>%
+      filter(!(nDEPTH %% 1))
+    
+  } # end if/else statement
+  
+  # QC plots ####
+  data_orig <- subset.data %>% 
+    select(nDEPTH, nTEMP, nDO) %>% 
+    mutate(Dataset = "Original")
+  
+  data_new <- df_adj_probe5 %>% 
+    select(nDEPTH, nTEMP, nDO) %>% 
+    mutate(Dataset = "Adjusted")
+  df_compare <- rbind(data_orig, data_new)
+  df_compare$Dataset <- factor(df_compare$Dataset
+                               , levels = c("Original", "Adjusted"))
+  myPal <- c("Original" = "#67a9cf"
+             , "Adjusted" = "#ef8a62")
+  # temp plot
+  plotT <- ggplot(data = df_compare, aes(y = nDEPTH))+
+    geom_point(aes(x = nTEMP, color = Dataset), size = 2)+
+    labs(x = "Water Temperature (Deg C)"
+         , y = "Depth (m)"
+         , title = paste(my_SiteDate, ": Orig vs. Adj Temp Profile"))+
+    scale_y_reverse()+
+    scale_color_manual(values = myPal)+
+    theme_bw()
+  plot_list_temp[[i]] <- plotT
+  
+  # DO plot
+  plotD <- ggplot(data = df_compare, aes(y = nDEPTH))+
+    geom_point(aes(x = nDO, color = Dataset), size = 2)+
+    labs(x = "Dissolved Oxygen (mg/L)"
+         , y = "Depth (m)"
+         , title = paste(my_SiteDate, ": Orig vs. Adj DO Profile"))+
+    scale_y_reverse()+
+    scale_color_manual(values = myPal)+
+    theme_bw()
+  
+  plot_list_DO[[i]] <- plotD
+  
+  # TDO3 calculation ####
+  df_4calc <- df_adj_probe5
+
+  nEqual3DO <- sum(df_4calc$nDO == 3)
+  nBelow3DO <- sum(df_4calc$nDO < 3)
+  SampProx <- abs(maxdepth - max(df_4calc$nDEPTH))
+  
+  # if/else statement for TDO3 calculation
+  ## DO measurements at or below 3 mg/L necessary for calculation.
+  if (nEqual3DO != 0) {
+    # Value in dataset
+    df_TDO3 <- df_4calc %>% 
+      filter(nDO == 3)
+    TDO3 <- min(df_TDO3$nTEMP)
+    
+  } else if (nEqual3DO == 0 & nBelow3DO != 0) {
+    # Value can be interpolated
+    ObsAbove3DO <- df_4calc %>% 
+      filter(nDO > 3) %>%
+      filter(row_number()==n()) %>% 
+      select(nDEPTH, nDO, nTEMP)
+    
+    ObsBelow3DO <- df_4calc %>% 
+      filter(nDO < 3) %>% 
+      filter(row_number() == 1)%>% 
+      select(nDEPTH, nDO, nTEMP)
+    
+    ObsAt3DO <- c(NA,3, NA)
+    
+    df_TDO3 <- as.data.frame(rbind(ObsAbove3DO, ObsAt3DO, ObsBelow3DO))
+    df_TDO3 <- df_TDO3 %>%
+      mutate(nTEMP = round(zoo::na.approx(nTEMP),1)
+             , nDEPTH = round(zoo::na.approx(nDEPTH),1))
+    df_TDO3 <- df_TDO3 %>% 
+      filter(nDO == 3)
+    TDO3 <- min(df_TDO3$nTEMP)
+    
+  } else if (nEqual3DO == 0 & nBelow3DO == 0 & SampProx <= 1) {
+    # lowest temperature is TDO3 if multiprobe within 1m of max depth
+    df_TDO3 <- df_4calc %>% 
+      filter(row_number() == n())
+    TDO3 <- min(df_TDO3$nTEMP)
+    
+  } else {
+    # TDO3 unable to be calculated
+    TDO3 <- -999
+    
+  }# end if/else statement
+  
+  # TDO6 calculation ####
+  nEqual6DO <- sum(df_4calc$nDO == 6)
+  nBelow6DO <- sum(df_4calc$nDO < 6)
+  
+  # if/else statement for TDO6 calculation
+  ## DO measurements at or below 6 mg/L necessary for calculation.
+  if (nEqual6DO != 0) {
+    # Value in dataset
+    df_TDO6 <- df_4calc %>% 
+      filter(nDO == 6)
+    TDO6 <- min(df_TDO6$nTEMP)
+    
+  } else if (nEqual6DO == 0 & nBelow6DO != 0) {
+    # Value can be interpolated
+    ObsAbove6DO <- df_4calc %>% 
+      filter(nDO > 5) %>%
+      filter(row_number()==n()) %>% 
+      select(nDEPTH, nDO, nTEMP)
+    
+    ObsBelow6DO <- df_4calc %>% 
+      filter(nDO < 5) %>% 
+      filter(row_number() == 1)%>% 
+      select(nDEPTH, nDO, nTEMP)
+    
+    ObsAt6DO <- c(NA,6, NA)
+    
+    df_TDO6 <- as.data.frame(rbind(ObsAbove6DO, ObsAt6DO, ObsBelow6DO))
+    df_TDO6 <- df_TDO6 %>%
+      mutate(nTEMP = round(zoo::na.approx(nTEMP),1)
+             , nDEPTH = round(zoo::na.approx(nDEPTH),1))
+    df_TDO6 <- df_TDO6 %>% 
+      filter(nDO == 6)
+    TDO6 <- min(df_TDO6$nTEMP)
+    
+  } else if (nEqual6DO == 0 & nBelow6DO == 0 & SampProx <= 1) {
+    # lowest temperature is TDO6 if multiprobe within 1m of max depth
+    df_TDO6 <- df_4calc %>% 
+      filter(row_number() == n())
+    TDO6 <- min(df_TDO6$nTEMP)
+    
+  } else {
+    # TDO6 unable to be calculated
+    TDO6 <- -999
+    
+  }# end if/else statement
+  
+  
+  # suitable volume ####
+  suitable <- df_4calc %>% 
+    filter(nDO >=6 & nTEMP <=20) # criteria from MassDEP SWQS
+  
+  # if/else statement suitable depth
+  # set metrics to zero if no suitable habitat found
+  nrow_suitable <- nrow(suitable)
+  if(nrow_suitable == 0){
+    suitMinDepth <- 0
+    suitMaxDepth <- 0
+    vertdiff <- 0
+  } else {
+    suitMinDepth <- min(suitable$nDEPTH)
+    suitMaxDepth <- max(suitable$nDEPTH)
+    vertdiff <-suitMaxDepth - suitMinDepth
+  }# end if/else statement
+  
+  # if/else statement for CLT metric
+  # set metrics to zero if no suitable habitat found
+  # note, a single result is not considered suitable
+  if (suitMinDepth == 0 & suitMaxDepth == 0 & vertdiff == 0) {
+    CLT <- 0
+  } else if (suitMinDepth >0 & suitMaxDepth >0 & vertdiff == 0) {
+    CLT <- 0
+  } else {
+    CLT <- vertdiff
+  } # end if/else statement
+  
+  # if/else statement for volume metrics
+  # set metrics to zero if no suitable habitat found
+  ## or if volume calculations are not available
+  # note, a single result is not considered suitable
+  if (totVol_m3 == -999) {
+    suitVol_m3 <- -999
+    pctSuit <- -999
+  } else if (suitMinDepth == 0 & suitMaxDepth == 0 & vertdiff == 0){
+    suitVol_m3 <- 0
+    pctSuit <- 0
+  } else if (suitMinDepth >0 & suitMaxDepth >0 & vertdiff == 0) {
+    suitVol_m3 <- 0
+    pctSuit <- 0
+  } else {
+    suitVol_m3 <- round(sum(suitable$Volume_m3),0)
+    pctSuit <- round(100*(suitVol_m3/totVol_m3),2)
+  } # end if/else statement
+  
+  # combine resuls ####
+  results <- c(my_SiteDate, my_UniqueID, orig_maxDepth, maxdepth, lake_area
+               , TDO3, TDO6, totVol_m3, suitVol_m3, pctSuit, suitMinDepth
+               , suitMaxDepth, CLT)
+  names(results) <- c("SiteDate", "UNIQUE_ID", "SampMaxDepth_m"
+                      , "LakeMaxDepth_m", "LakeArea_m2", "TDO3_DegC"
+                      , "TDO6_DegC", "TotalLakeVolume_m3"
+                      , "SuitableLakeVolume_m3", "PctSuitableVolume"
+                      , "SuitableMinDepth_m", "SuitableMaxDepth_m", "CLT_m")
+  result_list[[counter]] <- results
+  
+} # End loop
+
+# Compile results ####
+final_results <- do.call("rbind",result_list) #combine all vectors into a matrix
+df_results <- as.data.frame(final_results)
+df_results <- df_results %>% 
+  mutate(across(SampMaxDepth_m:CLT_m, as.numeric)) %>% 
+  mutate(across(SiteDate:UNIQUE_ID, as.factor)) %>% 
+  mutate(across(LakeMaxDepth_m:PctSuitableVolume, ~na_if(., -999)))
+df_results[sapply(df_results, is.infinite)]<-NA
+df_results <- df_results %>% 
+  mutate(across(SuitableMinDepth_m:CLT_m, ~replace_na(., 0)))
+
+metadata <- df_input %>% 
+  select(SiteDate, DATE, WATERBODY, LATITUDE, LONGITUDE) %>% 
+  distinct(.)
+
+df_combined <- left_join(metadata, df_results, by = "SiteDate") %>% 
+  select(SiteDate, UNIQUE_ID, everything())
+
+# Add QC flags ####
+df_final <- df_combined %>% 
+  mutate(QCFlag_SampleDepth = case_when(((LakeMaxDepth_m - SampMaxDepth_m) >5)
+                                        ~ paste0("Sample Depth >5m from Max Depth")
+                                        , ((LakeMaxDepth_m - SampMaxDepth_m) >1)
+                                        ~ paste0("Sample Depth >1m from Max Depth"))) %>% 
+  select(SiteDate:LakeMaxDepth_m, QCFlag_SampleDepth, everything())
+
+# Export data ####
+write.table(df_final, file.path(wd, paste0("Suitable_Coldwater_Habitat_"
+                                         ,myDate, ".csv"))
+            , row.names = FALSE, sep = ",", na = "")
+
+
+# Export plots ####
+
+## Temp plots ####
+pdf(file = file.path(wd, plot.dir
+                     , paste0("Temp_profile_comparison_plots_"
+                              , myDate, ".pdf")))
+for (i in 1:length(plot_list_temp)) {
+  print(plot_list_temp[[i]])
+}
+dev.off()
+## DO plots ####
+pdf(file = file.path(wd, plot.dir
+                     , paste0("DO_profile_comparison_plots_"
+                              , myDate, ".pdf")))
+for (i in 1:length(plot_list_DO)) {
+  print(plot_list_DO[[i]])
+}
+dev.off()

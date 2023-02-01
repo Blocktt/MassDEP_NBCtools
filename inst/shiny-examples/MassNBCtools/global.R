@@ -59,17 +59,13 @@ df_all_AUs <- df_305BasinMerge2022 %>%
 # GIS/Map data ####
 
 # MassDEP Dams
-GISlayer_dams <- sf::st_read(file.path(".","GIS_Data"
-                                         , "DAMS_PT.shp")) %>%
-  sf::st_transform('+proj=longlat +datum=WGS84')
+load(file.path(".","GIS_Data", "GISlayer_dams.rda"))
+
 # MassDEP AU polygons
-GISlayer_AUpoly <- sf::st_read(file.path(".","GIS_Data"
-                                  , "305BasinMerge2022.shp")) %>%
-  sf::st_transform('+proj=longlat +datum=WGS84')
+load(file.path(".","GIS_Data", "GISlayer_AUpoly.rda"))
+
 # MassDEP AU flowlines
-GISlayer_AUflow <- sf::st_read(file.path(".","GIS_Data"
-                                       , "2022arcs_mergeDRAFT.shp")) %>%
-  sf::st_transform('+proj=longlat +datum=WGS84')
+load(file.path(".","GIS_Data", "GISlayer_AUflow.rda"))
 
 # pre-process and save to .rda files
 # add popups as distractions
