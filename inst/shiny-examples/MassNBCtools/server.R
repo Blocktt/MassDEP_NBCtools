@@ -15,11 +15,11 @@ shinyServer(function(input, output) {
   # select AUs ####
   myData <- reactive({
     df_AU_Data %>%
-      select(AU_ID, Area_SQ_MI, PERCAG, PERCDEV
+      select(AU_ID, AU_TempClassQual, Area_SQ_MI, PERCAG, PERCDEV
              , PERCNAT, PERCWET, PERCAG_PR, PERCDEV_PR, PERCNAT_PR, PERCWET_PR
              , PERCAG_ST, PERCDEV_ST, PERCNAT_ST, PERCWET_ST, PERCAG_SP
              , PERCDEV_SP, PERCNAT_SP, PERCWET_SP, PercImp, nDams, nGWP
-             , nNPDES, nPWS_SW, nSEMS, nTRIs)
+             , nNPDES, nPWS_SW, nSEMS, nTRIs, pctZone2)
   })#reactive ~ END
   
   observeEvent(input$input_AU_choice, {
@@ -36,7 +36,103 @@ shinyServer(function(input, output) {
       })#renderDT ~ END
     } # end 
   })#observeEvent ~END
+  
+  ## AU select data ####
+  observeEvent(input$input_AU_choice, {
+    req(input$input_AU_choice != "")
     
+    myAU <- input$input_AU_choice
+    AU_Data <- myData()
+    AU_Data_trimmed <- AU_Data %>% 
+      filter(AU_ID == myAU)
+    
+    # land cover stats
+    Area_SQ_MI <- AU_Data_trimmed$Area_SQ_MI
+    PERCNAT <- AU_Data_trimmed$PERCNAT
+    PERCWET <- AU_Data_trimmed$PERCWET
+    PERCNAT_PR <- AU_Data_trimmed$PERCNAT_PR
+    PERCWET_PR <- AU_Data_trimmed$PERCWET_PR
+    PERCNAT_ST <- AU_Data_trimmed$PERCNAT_ST
+    PERCWET_ST <- AU_Data_trimmed$PERCWET_ST
+    PERCNAT_SP <- AU_Data_trimmed$PERCNAT_SP
+    PERCWET_SP <- AU_Data_trimmed$PERCWET_SP
+    PercImp <- AU_Data_trimmed$PercImp
+    
+    PctNat_CompWs <- PERCNAT + PERCWET
+    PctNat_ProxWs <- PERCNAT_PR + PERCWET_PR
+    Min_PctNat_CompWs_ProxWs <- min(PctNat_CompWs, PctNat_ProxWs)
+    
+    PctNat_CompBuf <- PERCNAT_ST + PERCWET_ST
+    PctNat_ProxBuf <- PERCNAT_SP + PERCWET_SP
+    
+    # per Appendix A Table A1 (2022 CALM)
+    if (Area_SQ_MI >= 25 & Min_PctNat_CompWs_ProxWs > 80 
+        & PctNat_ProxBuf >90) {
+      NatResult <- paste("Natural land cover above thresholds in CALM Appendix A Table A1.")
+    } else if (Area_SQ_MI < 25 & Min_PctNat_CompWs_ProxWs > 80 
+               & PctNat_CompBuf >90) {
+      NatResult <- paste("Natural land cover above thresholds in CALM Appendix A Table A1.")
+    } else {
+      NatResult <- paste("Natural land cover below thresholds in CALM Appendix A Table A1."
+                         , "Do not consider AU for natural background conditions.")
+        
+    }# if/else ~ END
+  
+    # point source counts
+    nDams <- AU_Data_trimmed$nDams
+    nNPDES <- AU_Data_trimmed$nNPDES
+    nSEMS <- AU_Data_trimmed$nSEMS
+    nTRIs <- AU_Data_trimmed$nTRIs
+    
+    # pct Zone II
+    pctZone2 <- AU_Data_trimmed$pctZone2
+    
+    # temperature classes
+    AU_TempClassQual <- AU_Data_trimmed$AU_TempClassQual
+    
+    # outputs
+    if (Area_SQ_MI >= 25) {
+      output$output_LC_Results <- renderUI({
+        HTML(paste(paste0("% Natural (Minimum of Watershed Scales): ", Min_PctNat_CompWs_ProxWs)
+                   , paste0("% Natural (Proximate Stream Buffer): ",PctNat_ProxBuf)
+                   , paste0("% Impervious: ", PercImp)
+                   , paste0("Result: ", NatResult)
+                   , sep="<br/>"))
+      })#renderUI ~ END
+    } else {
+      output$output_LC_Results <- renderUI({
+        HTML(paste(paste0("% Natural (Minimum of Watershed Scales): ", Min_PctNat_CompWs_ProxWs)
+                   , paste0("% Natural (Complete Stream Buffer): ",PctNat_CompBuf)
+                   , paste0("% Impervious: ", PercImp)
+                   , paste0("Result: ", NatResult)
+                   , sep="<br/>"))
+      })#renderUI ~ END
+    }# if/else ~ END
+    
+    output$output_dam_count <- renderUI({
+      HTML(paste0("Number of Dams in AU: ", nDams))
+      })#renderUI ~ END
+    
+    output$output_ptsrc_counts <- renderUI({
+      HTML(paste(paste0("Number of NPDES in AU: ", nNPDES)
+                 , paste0("Number of Superfunds in AU: ",nSEMS)
+                 , paste0("Number of TRIs in AU: ", nTRIs)
+                 , sep="<br/>"))
+    })#renderUI ~ END
+    
+    output$output_pctZone2 <- renderUI({
+      HTML(paste0("% Zone II WPA in AU: ", pctZone2))
+    })#renderUI ~ END
+    
+    output$output_TempClass <- renderUI({
+      HTML(paste(paste0("AU Temperature Class Qualifier: ", AU_TempClassQual)
+                 , paste0("If temperature exceedance is higher than WWF standard (28.3 DegC),"
+                          , "then the AU is not considered natural.")
+                 , sep="<br/>"))
+      })#renderUI ~ END
+    
+  })#observeEvent ~ END
+  
   # Mapping ####
   ## Base Map ####
   output$mymap <- renderLeaflet({
