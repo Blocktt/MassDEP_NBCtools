@@ -20,9 +20,6 @@ shinyServer(function(input, output) {
              , PERCAG_ST, PERCDEV_ST, PERCNAT_ST, PERCWET_ST, PERCAG_SP
              , PERCDEV_SP, PERCNAT_SP, PERCWET_SP, PercImp, nDams, nGWP
              , nNPDES, nPWS_SW, nSEMS, nTRIs)
-      # select(AU_ID, Area_SQ_MI, CLASS, QUALIFIER, CATEGORY)
-      # filter(AU_ID == input$input_AU_choice) %>% 
-      # filter(complete.cases(.))
   })#reactive ~ END
   
   observeEvent(input$input_AU_choice, {
@@ -39,64 +36,91 @@ shinyServer(function(input, output) {
       })#renderDT ~ END
     } # end 
   })#observeEvent ~END
-  
-    # output$input_DT <- renderDT({
-    #   myData()
-    # })#renderDT ~ END
     
-    # Mapping ####
-    ## Base Map ####
-    output$mymap <- renderLeaflet({
-      leaflet("mymap") %>%
-        addTiles() %>% 
-        addProviderTiles(providers$Esri.WorldStreetMap) %>% 
-        setView(lat = 42.3063, lng = -71.8046, zoom = 8) %>%
-        addLayersControl(overlayGroups = c("AU_Polygons", "Dams")
-                         ,baseGroups = c("Esri WSM")
-                         ,options = layersControlOptions(collapsed = FALSE)) %>%
-        hideGroup(c("AU_Polygons", "Dams")) %>%
-        addMiniMap(toggleDisplay = TRUE, tiles = providers$Esri.WorldStreetMap)
-    })#renderLeaflet ~ END
-    
-    ## Load layers ####
-    output$polyAU_output <- renderPlot({
-      leafletProxy('mymap') %>% # initalize the map
-        addPolygons(data = GISlayer_AUpoly, color = "green", weight = 2
-                    , fill = FALSE, label = GISlayer_AUpoly$AU_ID, group = "AU_Polygons"
-                    , popup = paste("<b> AU_ID:</b>", GISlayer_AUpoly$AU_ID, "<br>"
-                                    ,"<b> Area_SQ_MI:</b>", GISlayer_AUpoly$Area_SQ_MI))
-    }) #renderPlot ~ END
-    
-    output$dam_output <- renderPlot({
-      leafletProxy('mymap') %>% # initalize the map
-        addCircleMarkers(data = GISlayer_dams, color = "red", radius = 5
-                         , label = GISlayer_dams$DAMNAME, group = "Dams"
-                         , popup = paste("<b> Dam Name:</b>", GISlayer_dams$DAMNAME, "<br>"
-                                         ,"<b> NATID:</b>", GISlayer_dams$NATID, "<br>"
-                                         ,"<b> REGAUTH:</b>", GISlayer_dams$REGAUTH, "<br>"
-                                         ,"<b> OWNTYPE1:</b>", GISlayer_dams$OWNTYPE1, "<br>"
-                                         ,"<b> OWNTYPE2:</b>", GISlayer_dams$OWNTYPE2, "<br>"
-                                         ,"<b> OWNTYPE3:</b>", GISlayer_dams$OWNTYPE3, "<br>"
-                                         ,"<b> HAZCODE:</b>", GISlayer_dams$HAZCODE))
-    }) #renderPlot ~ END
-    
+  # Mapping ####
+  ## Base Map ####
+  output$mymap <- renderLeaflet({
+    leaflet("mymap") %>%
+      addTiles() %>%
+      addProviderTiles(providers$Esri.WorldStreetMap) %>% 
+      setView(lat = 42.3063, lng = -71.8046, zoom = 8) %>%
+      addPolygons(data = GISlayer_AUpoly, color = "black", weight = 2, opacity = 1
+                  , fill = FALSE, label = GISlayer_AUpoly$AU_ID, group = "AU Watersheds"
+                  , popup = paste("<b> AU_ID:</b>", GISlayer_AUpoly$AU_ID, "<br>"
+                                  ,"<b> Area_SQ_MI:</b>", GISlayer_AUpoly$Area_SQ_MI)) %>%
+      addCircleMarkers(data = GISlayer_dams, radius = 7, stroke = TRUE
+                       , fillOpacity = 1, fillColor = "red", color = "black"
+                       , opacity = 1, weight = 2
+                       , label = GISlayer_dams$DAMNAME, group = "Dams"
+                       , popup = paste("<b> Dam Name:</b>", GISlayer_dams$DAMNAME, "<br>"
+                                       ,"<b> NATID:</b>", GISlayer_dams$NATID, "<br>"
+                                       ,"<b> REGAUTH:</b>", GISlayer_dams$REGAUTH, "<br>"
+                                       ,"<b> OWNTYPE1:</b>", GISlayer_dams$OWNTYPE1, "<br>"
+                                       ,"<b> OWNTYPE2:</b>", GISlayer_dams$OWNTYPE2, "<br>"
+                                       ,"<b> OWNTYPE3:</b>", GISlayer_dams$OWNTYPE3, "<br>"
+                                       ,"<b> HAZCODE:</b>", GISlayer_dams$HAZCODE)) %>%
+      addCircleMarkers(data = GISlayer_SEMS, radius = 7, stroke = TRUE
+                       , fillOpacity = 1, fillColor = "#beaed4", color = "black"
+                       , opacity = 1, weight = 2
+                       , label = GISlayer_SEMS$PRIMARY_NA, group = "Superfunds"
+                       , popup = paste("<b> Primary Name:</b>", GISlayer_SEMS$PRIMARY_NA, "<br>"
+                                       ,"<b> Registry ID:</b>", GISlayer_SEMS$REGISTRY_I, "<br>"
+                                       ,"<b> Latitude:</b>", GISlayer_SEMS$LATITUDE83, "<br>"
+                                       ,"<b> Longitude:</b>", GISlayer_SEMS$LONGITUDE8)) %>%
+      addCircleMarkers(data = GISlayer_NPDES, radius = 7, stroke = TRUE
+                       , fillOpacity = 1, fillColor = "orange", color = "black"
+                       , opacity = 1, weight = 2
+                       , label = GISlayer_NPDES$PRIMARY_NA, group = "NPDES"
+                       , popup = paste("<b> Primary Name:</b>", GISlayer_NPDES$PRIMARY_NA, "<br>"
+                                       ,"<b> Registry ID:</b>", GISlayer_NPDES$REGISTRY_I, "<br>"
+                                       ,"<b> Latitude:</b>", GISlayer_NPDES$LATITUDE83, "<br>"
+                                       ,"<b> Longitude:</b>", GISlayer_NPDES$LONGITUDE8)) %>%
+      addCircleMarkers(data = GISlayer_TRIs, radius = 7, stroke = TRUE
+                       , fillOpacity = 1, fillColor = "#7fc97f", color = "black"
+                       , opacity = 1, weight = 2
+                       , label = GISlayer_TRIs$PRIMARY_NA, group = "TRIs"
+                       , popup = paste("<b> Primary Name:</b>", GISlayer_TRIs$PRIMARY_NA, "<br>"
+                                       ,"<b> Registry ID:</b>", GISlayer_TRIs$REGISTRY_I, "<br>"
+                                       ,"<b> Latitude:</b>", GISlayer_TRIs$LATITUDE83, "<br>"
+                                       ,"<b> Longitude:</b>", GISlayer_TRIs$LONGITUDE8)) %>%
+      addPolylines(data = GISlayer_AUflow, color = "blue", weight = 3
+                   , label = GISlayer_AUflow$AU_ID, group = "AU Polylines"
+                   , popup = paste("<b> AU_ID:</b>", GISlayer_AUflow$AU_ID, "<br>"
+                                   ,"<b> AU_Name:</b>", GISlayer_AUflow$AU_Name, "<br>"
+                                   ,"<b> AU_DESC1:</b>", GISlayer_AUflow$AU_DESC1, "<br>"
+                                   ,"<b> AU_DESC2:</b>", GISlayer_AUflow$AU_DESC2, "<br>"
+                                   ,"<b> AU_TYPE:</b>", GISlayer_AUflow$AU_TYPE, "<br>"
+                                   ,"<b> AU_Size:</b>", GISlayer_AUflow$AU_Size, "<br>"
+                                   ,"<b> AU_Unit:</b>", GISlayer_AUflow$AU_Unit, "<br>"
+                                   ,"<b> AU_Class:</b>", GISlayer_AUflow$AU_Class, "<br>"
+                                   ,"<b> AU_ClassQu:</b>", GISlayer_AUflow$AU_ClassQu, "<br>"
+                                   ,"<b> AU_ClassRe:</b>", GISlayer_AUflow$AU_ClassRe)) %>%
+      addPolygons(data = GISlayer_Zone2, color = "black", weight = 2, opacity = 1
+                  , fillColor = "#df65b0", fillOpacity = 0.5, group = "Zone 2 WPA") %>%  
+      addLayersControl(overlayGroups = c("AU Polylines", "AU Watersheds", "Dams"
+                                         , "NPDES", "Superfunds", "TRIs"
+                                         , "Zone 2 WPA")
+                       ,baseGroups = c("Esri WSM")
+                       ,options = layersControlOptions(collapsed = TRUE)) %>%
+      hideGroup(c("AU Polylines", "AU Watersheds", "Dams","NPDES", "Superfunds"
+                  , "TRIs", "Zone 2 WPA")) %>%
+      addMiniMap(toggleDisplay = TRUE, tiles = providers$Esri.WorldStreetMap
+                 , position = "bottomleft")
+  })#renderLeaflet ~ END
+
     ## Map Zoom ####
     # Map that filters output data to a single AU
     observeEvent(input$input_AU_choice, {
       req(input$input_AU_choice != "")
       
       myAU <- input$input_AU_choice
+      
+      df_AUCentroids_select <- df_AUCentroids %>% 
+        filter(AU_ID == myAU)
+      AU_long <- df_AUCentroids_select$Longitude # longitude
+      AU_lat <- df_AUCentroids_select$Latitude # latitude
 
       GISlayer_AUpoly_select <- GISlayer_AUpoly[GISlayer_AUpoly$AU_ID == myAU,]
-      
-      # https://r-spatial.github.io/sf/articles/sf1.html#crs
-      # https://spatialreference.org/ref/?search=nad+83+massachusetts&srtext=Search
-      AU_transform <- sf::st_transform(GISlayer_AUpoly_select, 2249)
-      AU_Centroid <- suppressWarnings(sf::st_centroid(AU_transform))
-      backtransform <- sf::st_transform(AU_Centroid, 4326)
-      AU_geom <- backtransform$geometry[[1]]
-      AU_long <- AU_geom[1] # longitude
-      AU_lat <- AU_geom[2] # latitude
       
       # modfiy map
       leafletProxy("mymap") %>%
@@ -107,44 +131,7 @@ shinyServer(function(input, output) {
         setView(lng = AU_long, lat = AU_lat, zoom = 12)
     })#observeEvent ~ END
 
-    # output$mymap <- renderLeaflet({
-    #   leaflet() %>%
-    #     addTiles() %>%
-    #     addProviderTiles(providers$Esri.WorldStreetMap, group="Esri WSM") %>%
-    #     addProviderTiles("CartoDB.Positron", group="Positron") %>%
-    #     addProviderTiles(providers$Stamen.TonerLite, group="Toner Lite") %>%
-    #     addCircleMarkers(data = GISlayer_dams, color = "red", radius = 5
-    #                      , label = GISlayer_dams$DAMNAME, group = "Dams"
-    #                      , popup = paste("<b> Dam Name:</b>", GISlayer_dams$DAMNAME, "<br>"
-    #                                      ,"<b> NATID:</b>", GISlayer_dams$NATID, "<br>"
-    #                                      ,"<b> REGAUTH:</b>", GISlayer_dams$REGAUTH, "<br>"
-    #                                      ,"<b> OWNTYPE1:</b>", GISlayer_dams$OWNTYPE1, "<br>"
-    #                                      ,"<b> OWNTYPE2:</b>", GISlayer_dams$OWNTYPE2, "<br>"
-    #                                      ,"<b> OWNTYPE3:</b>", GISlayer_dams$OWNTYPE3, "<br>"
-    #                                      ,"<b> HAZCODE:</b>", GISlayer_dams$HAZCODE)) %>%
-    #     addPolygons(data = GISlayer_AUpoly, color = "green", weight = 2
-    #                 , fill = FALSE, label = GISlayer_AUpoly$AU_ID, group = "AU_Polygons"
-    #                 , popup = paste("<b> AU_ID:</b>", GISlayer_AUpoly$AU_ID, "<br>"
-    #                                 ,"<b> Area_SQ_MI:</b>", GISlayer_AUpoly$Area_SQ_MI)) %>%
-    #     addPolylines(data = GISlayer_AUflow, color = "blue", weight = 3
-    #                  , label = GISlayer_AUflow$AU_ID, group = "AU_Polylines"
-    #                  , popup = paste("<b> AU_ID:</b>", GISlayer_AUflow$AU_ID, "<br>"
-    #                                  ,"<b> AU_Name:</b>", GISlayer_AUflow$AU_Name, "<br>"
-    #                                  ,"<b> AU_DESC1:</b>", GISlayer_AUflow$AU_DESC1, "<br>"
-    #                                  ,"<b> AU_DESC2:</b>", GISlayer_AUflow$AU_DESC2, "<br>"
-    #                                  ,"<b> AU_TYPE:</b>", GISlayer_AUflow$AU_TYPE, "<br>"
-    #                                  ,"<b> AU_Size:</b>", GISlayer_AUflow$AU_Size, "<br>"
-    #                                  ,"<b> AU_Unit:</b>", GISlayer_AUflow$AU_Unit, "<br>"
-    #                                  ,"<b> AU_Class:</b>", GISlayer_AUflow$AU_Class, "<br>"
-    #                                  ,"<b> AU_ClassQu:</b>", GISlayer_AUflow$AU_ClassQu, "<br>"
-    #                                  ,"<b> AU_ClassRe:</b>", GISlayer_AUflow$AU_ClassRe)) %>%
-    #     addLayersControl(overlayGroups = c("Dams", "AU_Polygons", "AU_Polylines")
-    #                      ,baseGroups = c("Esri WSM", "Positron", "Toner Lite")
-    #                      ,options = layersControlOptions(collapsed = FALSE)) %>%
-    #     hideGroup(c("Dams", "AU_Polygons", "AU_Polylines")) %>%
-    #     addMiniMap(toggleDisplay = TRUE, tiles = providers$Esri.WorldStreetMap)
-    # })#renderLeaflet ~ END
-    
+
     # Output info ####
     output$output_analyst <- renderText({input$input_analyst})
     output$output_AU_choice <- renderText({input$input_AU_choice})
