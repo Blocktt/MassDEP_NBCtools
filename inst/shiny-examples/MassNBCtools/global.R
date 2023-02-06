@@ -20,8 +20,7 @@ library(rmarkdown)
 library(markdown)
 library(tidyr)
 library(leaflet)
-library(mapview) # used to download leaflet map
-# library(rgdal)
+library(capture)
 
 # Source ----
 db_main_sb           <- source("external/db_main_sb.R", local = TRUE)$value
