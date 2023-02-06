@@ -25,7 +25,7 @@ shinyServer(function(input, output) {
     ,easyClose = T)
   
   # Show the model on start up
-  # showModal(myModal)
+  showModal(myModal)
   
   # select AUs ####
   myData <- reactive({
