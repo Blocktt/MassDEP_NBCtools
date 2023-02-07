@@ -7,7 +7,7 @@ function() {
                h2("Output information")
                , p(strong("Analyst name:"), textOutput("output_analyst", inline = T)
                    , style = "font-size:20px;")
-               , p(strong("Chosen AU:"), textOutput("output_AU_choice1", inline = T)
+               , p(strong("Chosen AU:"), textOutput("output_AU_choice", inline = T)
                    , style = "font-size:20px;")
                , p(strong("Natural land cover:"), textOutput("output_Nat_Land_choice", inline = T)
                    , style = "font-size:20px;")

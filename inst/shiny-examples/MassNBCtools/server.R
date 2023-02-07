@@ -88,7 +88,7 @@ shinyServer(function(input, output) {
       NatResult <- paste("Natural land cover exceeds CALM NBC thresholds.")
     } else if (Area_SQ_MI < 25 & Min_PctNat_CompWs_ProxWs > 80 
                & PctNat_CompBuf >90) {
-      NatResult <- paste("NNatural land cover exceeds CALM NBC thresholds.")
+      NatResult <- paste("Natural land cover exceeds CALM NBC thresholds.")
     } else {
       NatResult <- paste("Natural land cover does not exceed CALM NBC thresholds."
                          , "Do not consider AU for natural background conditions.")
@@ -140,6 +140,22 @@ shinyServer(function(input, output) {
       })#renderUI ~ END
     }# if/else ~ END
     
+    if (PercImp >= 4) {
+      output$output_Imperv1 <- renderUI({
+        HTML(paste(paste0("% Impervious: ", PercImp)
+                   , paste0("Result: Impervious land cover exceeds CALM NBC thresholds. "
+                            , "The temperature violations are not to be considered natural.")
+                   , sep="<br/>"))
+      })#renderUI ~ END
+    } else {
+      output$output_Imperv1 <- renderUI({
+        HTML(paste(paste0("% Impervious: ", PercImp)
+                   , paste0("Result: Impervious land cover does not exceed CALM NBC thresholds. "
+                    , "The temperature violations may be considered natural. Review additional details.")
+                   , sep="<br/>"))
+      })#renderUI ~ END
+    }# if/else ~ END
+    
     output$output_dam_count1 <- renderUI({
       HTML(paste0("Number of Dams in AU: ", nDams))
       })#renderUI ~ END
@@ -168,10 +184,7 @@ shinyServer(function(input, output) {
     })#renderUI ~ END
     
     output$output_TempClass <- renderUI({
-      HTML(paste(paste0("AU Temperature Class Qualifier: ", AU_TempClassQual)
-                 , paste0("If temperature exceedance is higher than WWF standard (28.3 DegC),"
-                          , "then the AU is not considered natural.")
-                 , sep="<br/>"))
+      HTML(paste0(AU_TempClassQual))
       })#renderUI ~ END
     
   })#observeEvent ~ END
@@ -248,11 +261,11 @@ shinyServer(function(input, output) {
                   , fillColor = "#df65b0", fillOpacity = 0.25, group = "Zone 2 WPA") %>%  
       addLayersControl(overlayGroups = c("AU River Arc", "AU Watersheds", "Dams"
                                          , "NPDES", "Superfunds", "TRIs"
-                                         , "Zone 2 WPA")
+                                         , "PWS SW", "Zone 2 WPA")
                        ,baseGroups = c("Esri WSM", "Esri Ortho")
                        ,options = layersControlOptions(collapsed = TRUE)) %>%
       hideGroup(c("AU River Arc", "AU Watersheds", "Dams","NPDES", "Superfunds"
-                  , "TRIs", "Zone 2 WPA")) %>%
+                  , "TRIs", "PWS SW", "Zone 2 WPA")) %>%
       addMiniMap(toggleDisplay = TRUE, tiles = providers$Esri.WorldStreetMap
                  , position = "bottomright")
   })#renderLeaflet ~ END
@@ -282,12 +295,51 @@ shinyServer(function(input, output) {
 
 
     # Output info ####
+    ## General Outputs ####
     output$output_analyst <- renderText({input$input_analyst})
-    output$output_AU_choice <- renderText({input$input_AU_choice})
+    output$output_AU_choice1 <- renderText({input$input_AU_choice})
     output$output_Nat_Land_choice <- renderText({input$input_Nat_Land_choice})
     output$output_Dam_choice <- renderText({input$input_Dam_choice})
     output$output_PtSrc_choice <- renderText({input$input_PtSrc_choice})
     output$output_Withdrawal_choice <- renderText({input$input_Withdrawal_choice})
     output$output_notes <- renderText({input$input_notes})
-
+    
+    ## Temp Outputs ####
+    output$output_AU_choice2 <- renderText({input$input_AU_choice})
+    
+    observeEvent(input$input_tempcrit_choice, {
+      req(input$input_tempcrit_choice != "")
+      
+      if (input$input_tempcrit_choice == "Cold-Water") {
+        output$output_tempcrit <- renderUI({
+          paste("The temperature violations may be considered natural. Review additional details.")
+        })#renderUI ~ END
+      } else if (input$input_tempcrit_choice == "Warm-Water") {
+        output$output_tempcrit <- renderUI({
+          paste("The temperature violations are not to be considered natural.")
+        })#renderUI ~ END
+      } else {
+        output$output_tempcrit <- renderUI({
+          paste("")
+        })#renderUI ~ END
+      }# if/else ~ END
+      })#observeEvent ~ END
+    
+    observeEvent(input$input_tempspike_choice, {
+      req(input$input_tempspike_choice != "")
+      
+      if (input$input_tempspike_choice == "No") {
+        output$output_tempspike <- renderUI({
+          paste("The temperature violations may be considered natural. Review additional details.")
+        })#renderUI ~ END
+      } else if (input$input_tempspike_choice == "Yes") {
+        output$output_tempspike <- renderUI({
+          paste("The temperature violations are not to be considered natural.")
+        })#renderUI ~ END
+      } else {
+        output$output_tempspike <- renderUI({
+          paste("")
+        })#renderUI ~ END
+      }# if/else ~ END
+    })#observeEvent ~ END
 })##shinyServer ~ END

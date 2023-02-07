@@ -4,30 +4,20 @@ function() {
   tabPanel("tabpan_temp"
            , sidebarLayout(
              sidebarPanel(
-               width = 5
+               width = 4
                ,h2("Water Temperature Evaluation")
                ,p(strong("Chosen AU:"), textOutput("output_AU_choice2", inline = T)
                    , style = "font-size:20px;")
-               ,p(strong("AU Temperature Class Qualifier: "), htmlOutput("output_TempClass", inline = T)
-                  , style = "font-size:20px;")
-               ,p("If temperature exceedance is higher than WWF standard (28.3C), then the AU is not considered natural.")
                # Temperature criteria
+               ,p(strong("Determine which temperature criteria were violated."))
                ,selectInput(inputId = "input_tempcrit_choice"
                             ,label = "Which temperature criteria were violated, the warm water or cold water?"
-                            ,choices = c("","Warm-Water","Cold-Water","Unclear")) # selectInput
-               , htmlOutput("output_tempcrit")
-               
-               # Temperature spikes
-               ,selectInput(inputId = "input_tempspike_choice"
-                            ,label = "Is the temperature violation the result of isolated spike(s)?"
-                            ,choices = c("","Yes","No","Unclear")) # selectInput
-               , htmlOutput("output_tempspike")
-               
+                            ,choices = c("","Warm-Water","Cold- Water","Unclear")) # selectInput
+               , textOutput("output_tempcrit")
                # Impervious land cover
                ,selectInput(inputId = "input_imperv_choice"
                             ,label = "Is impervious land cover a potential source of impairment?"
                             ,choices = c("","Yes","No","Unclear")) # selectInput
-               , htmlOutput("output_Imperv1")
              ) # sidebarPanel
              , mainPanel(
                
