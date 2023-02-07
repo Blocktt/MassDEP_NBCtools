@@ -19,8 +19,9 @@ shinyServer(function(input, output) {
            (AUs) for natural background conditions.<br> This app was developed by
           Ben Block, Tetra Tech (Ben.Block@tetratech.com), for use by the
           Massachusetts Department of Environmental Protection (MassDEP).<br> 
-          Please contact Anna Mayor (anna.mayor@mass.gov) or Richard 
-          Chase (richard.f.chase@mass.gov) should any issues or questions arise.<br>")
+          Please contact Anna Mayor (anna.mayor@mass.gov), Laurie Kennedy 
+          (laurie.kennedy@mass.gov) or Richard Chase (richard.f.chase@mass.gov)
+           should any issues or questions arise.<br>")
     ,HTML('<center><img src="MassDEPlogo.png" height="100"></center>')
     ,easyClose = T)
   
@@ -84,12 +85,12 @@ shinyServer(function(input, output) {
     # per Appendix A Table A1 (2022 CALM)
     if (Area_SQ_MI >= 25 & Min_PctNat_CompWs_ProxWs > 80 
         & PctNat_ProxBuf >90) {
-      NatResult <- paste("Natural land cover above thresholds in CALM Appendix A Table A1.")
+      NatResult <- paste("Natural land cover exceeds CALM NBC thresholds.")
     } else if (Area_SQ_MI < 25 & Min_PctNat_CompWs_ProxWs > 80 
                & PctNat_CompBuf >90) {
-      NatResult <- paste("Natural land cover above thresholds in CALM Appendix A Table A1.")
+      NatResult <- paste("NNatural land cover exceeds CALM NBC thresholds.")
     } else {
-      NatResult <- paste("Natural land cover below thresholds in CALM Appendix A Table A1."
+      NatResult <- paste("Natural land cover does not exceed CALM NBC thresholds."
                          , "Do not consider AU for natural background conditions.")
         
     }# if/else ~ END
@@ -180,7 +181,8 @@ shinyServer(function(input, output) {
   output$mymap <- renderLeaflet({
     leaflet("mymap") %>%
       addTiles() %>%
-      addProviderTiles(providers$Esri.WorldStreetMap) %>% 
+      addProviderTiles(providers$Esri.WorldStreetMap, group="Esri WSM") %>% 
+      addProviderTiles(providers$Esri.WorldImagery, group = "Esri Ortho") %>% 
       setView(lat = 42.3063, lng = -71.8046, zoom = 8) %>%
       addPolygons(data = GISlayer_AUpoly, color = "black", weight = 2, opacity = 1
                   , fill = FALSE, label = GISlayer_AUpoly$AU_ID, group = "AU Watersheds"
@@ -221,8 +223,17 @@ shinyServer(function(input, output) {
                                        ,"<b> Registry ID:</b>", GISlayer_TRIs$REGISTRY_I, "<br>"
                                        ,"<b> Latitude:</b>", GISlayer_TRIs$LATITUDE83, "<br>"
                                        ,"<b> Longitude:</b>", GISlayer_TRIs$LONGITUDE8)) %>%
+      addCircleMarkers(data = GISlayer_PWS_SW, radius = 7, stroke = TRUE
+                       , fillOpacity = 1, fillColor = "#c51b7d", color = "black"
+                         , opacity = 1, weight = 2
+                       , label = GISlayer_PWS_SW$PWS_ID, group = "PWS SW"
+                       , popup = paste("<b> Site Name:</b>", GISlayer_PWS_SW$SITE_NAME, "<br>"
+                                       ,"<b> PWS ID:</b>", GISlayer_PWS_SW$PWS_ID, "<br>"
+                                       ,"<b> Type:</b>", GISlayer_PWS_SW$TYPE, "<br>"
+                                       ,"<b> Latitude:</b>", GISlayer_PWS_SW$LATITUDE, "<br>"
+                                       ,"<b> Longitude:</b>", GISlayer_PWS_SW$LONGITUDE)) %>%
       addPolylines(data = GISlayer_AUflow, color = "blue", weight = 3
-                   , label = GISlayer_AUflow$AU_ID, group = "AU Polylines"
+                   , label = GISlayer_AUflow$AU_ID, group = "AU River Arc"
                    , popup = paste("<b> AU_ID:</b>", GISlayer_AUflow$AU_ID, "<br>"
                                    ,"<b> AU_Name:</b>", GISlayer_AUflow$AU_Name, "<br>"
                                    ,"<b> AU_DESC1:</b>", GISlayer_AUflow$AU_DESC1, "<br>"
@@ -234,13 +245,13 @@ shinyServer(function(input, output) {
                                    ,"<b> AU_ClassQu:</b>", GISlayer_AUflow$AU_ClassQu, "<br>"
                                    ,"<b> AU_ClassRe:</b>", GISlayer_AUflow$AU_ClassRe)) %>%
       addPolygons(data = GISlayer_Zone2, color = "black", weight = 2, opacity = 1
-                  , fillColor = "#df65b0", fillOpacity = 0.5, group = "Zone 2 WPA") %>%  
-      addLayersControl(overlayGroups = c("AU Polylines", "AU Watersheds", "Dams"
+                  , fillColor = "#df65b0", fillOpacity = 0.25, group = "Zone 2 WPA") %>%  
+      addLayersControl(overlayGroups = c("AU River Arc", "AU Watersheds", "Dams"
                                          , "NPDES", "Superfunds", "TRIs"
                                          , "Zone 2 WPA")
-                       ,baseGroups = c("Esri WSM")
+                       ,baseGroups = c("Esri WSM", "Esri Ortho")
                        ,options = layersControlOptions(collapsed = TRUE)) %>%
-      hideGroup(c("AU Polylines", "AU Watersheds", "Dams","NPDES", "Superfunds"
+      hideGroup(c("AU River Arc", "AU Watersheds", "Dams","NPDES", "Superfunds"
                   , "TRIs", "Zone 2 WPA")) %>%
       addMiniMap(toggleDisplay = TRUE, tiles = providers$Esri.WorldStreetMap
                  , position = "bottomright")

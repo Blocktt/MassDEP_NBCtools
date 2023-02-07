@@ -80,3 +80,6 @@ load(file.path(".","GIS_Data", "GISlayer_NPDES.rda"))
 # TRIs
 load(file.path(".","GIS_Data", "GISlayer_TRIs.rda"))
 
+# PWS
+load(file.path(".","GIS_Data", "GISlayer_PWS_SW.rda"))
+
