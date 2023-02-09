@@ -156,6 +156,25 @@ shinyServer(function(input, output) {
       })#renderUI ~ END
     }# if/else ~ END
     
+    if (PERCWET_PR <= 7) {
+      output$output_wetland1 <- renderUI({
+        HTML(paste(paste0("% Wetlands (Proximal Watershed): ", PERCWET_PR)
+                   , paste0("Result: Wetland land cover does not exceed CALM NBC thresholds. "
+                            , "The DO violations are not to be considered natural.")
+                   , sep="<br/>"))
+      })#renderUI ~ END
+    } else {
+      output$output_wetland1 <- renderUI({
+        HTML(paste(paste0("% Wetlands (Proximal Watershed): ", PERCWET_PR)
+                   , paste0("Result: Wetland land cover exceeds CALM NBC thresholds. "
+                            , "The DO violations may be considered natural. Review additional details.")
+                   , sep="<br/>"))
+      })#renderUI ~ END
+    }# if/else ~ END
+    
+    
+    
+    
     output$output_dam_count1 <- renderUI({
       HTML(paste0("Number of Dams in AU: ", nDams))
       })#renderUI ~ END
@@ -338,6 +357,45 @@ shinyServer(function(input, output) {
         })#renderUI ~ END
       } else {
         output$output_tempspike <- renderUI({
+          paste("")
+        })#renderUI ~ END
+      }# if/else ~ END
+    })#observeEvent ~ END
+    
+    ## DO Outputs ####
+    output$output_AU_choice3 <- renderText({input$input_AU_choice})
+    
+    observeEvent(input$input_dospike_choice, {
+      req(input$input_dospike_choice != "")
+      
+      if (input$input_dospike_choice == "No") {
+        output$output_dospike <- renderUI({
+          paste("The DO violations may be considered natural. Review additional details.")
+        })#renderUI ~ END
+      } else if (input$input_dospike_choice == "Yes") {
+        output$output_dospike <- renderUI({
+          paste("The DO violations are not to be considered natural.")
+        })#renderUI ~ END
+      } else {
+        output$output_dospike <- renderUI({
+          paste("")
+        })#renderUI ~ END
+      }# if/else ~ END
+    })#observeEvent ~ END
+    
+    observeEvent(input$input_dodiurnal_choice, {
+      req(input$input_dodiurnal_choice != "")
+      
+      if (input$input_dodiurnal_choice == "No") {
+        output$output_dodiurnal <- renderUI({
+          paste("The DO violations may be considered natural. Review additional details.")
+        })#renderUI ~ END
+      } else if (input$input_dodiurnal_choice == "Yes") {
+        output$output_dodiurnal <- renderUI({
+          paste("The DO violations are not to be considered natural.")
+        })#renderUI ~ END
+      } else {
+        output$output_dodiurnal <- renderUI({
           paste("")
         })#renderUI ~ END
       }# if/else ~ END
