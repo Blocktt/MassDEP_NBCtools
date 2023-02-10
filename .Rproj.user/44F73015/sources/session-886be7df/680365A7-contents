@@ -414,9 +414,16 @@ shinyServer(function(input, output) {
       }# if/else ~ END
     })#observeEvent ~ END
     
+    output$output_dospike_choice <- renderText({input$input_dospike_choice})
+    output$output_dodiurnal_choice <- renderText({input$input_dodiurnal_choice})
+    output$output_wetland1_choice <- renderText({input$input_wetland1_choice})
+    
     ## TP Outputs ####
     output$output_AU_choice4 <- renderText({input$input_AU_choice})
+    output$output_geoTP_choice <- renderText({input$input_geoTP_choice})
     
     ## pH Outputs ####
     output$output_AU_choice5 <- renderText({input$input_AU_choice})
+    output$output_wetland2_choice <- renderText({input$input_wetland2_choice})
+    
 })##shinyServer ~ END
