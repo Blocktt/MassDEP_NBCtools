@@ -20,8 +20,8 @@ function() {
                             ,choices = c("","Yes","No","Unclear")) # selectInput
                , htmlOutput("output_dodiurnal")
                
-               # Impervious land cover
-               ,selectInput(inputId = "input_wetland_choice"
+               # Wetland land cover
+               ,selectInput(inputId = "input_wetland1_choice"
                             ,label = "Is wetland land cover a potential source of DO violations (>7%)?"
                             ,choices = c("","Yes","No","Unclear")) # selectInput
                , htmlOutput("output_wetland1")

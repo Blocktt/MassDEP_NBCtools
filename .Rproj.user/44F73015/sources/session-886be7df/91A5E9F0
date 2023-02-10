@@ -1,0 +1,26 @@
+{
+    "id": "91A5E9F0",
+    "path": "C:/Users/ben.block/OneDrive - Tetra Tech, Inc/GitHub/MassNBCtools/inst/shiny-examples/MassNBCtools/external/tab_Gen_pH.R",
+    "project_path": "inst/shiny-examples/MassNBCtools/external/tab_Gen_pH.R",
+    "type": "r_source",
+    "hash": "3562018313",
+    "contents": "",
+    "dirty": false,
+    "created": 1676044956835.0,
+    "source_on_save": false,
+    "relative_order": 4,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "16,54",
+        "scrollLine": "2"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1676046235,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1676046235322,
+    "read_only": false,
+    "read_only_alternatives": []
+}

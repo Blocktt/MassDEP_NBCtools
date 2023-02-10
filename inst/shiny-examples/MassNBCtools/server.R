@@ -163,6 +163,12 @@ shinyServer(function(input, output) {
                             , "The DO violations are not to be considered natural.")
                    , sep="<br/>"))
       })#renderUI ~ END
+      output$output_wetland2 <- renderUI({
+        HTML(paste(paste0("% Wetlands (Proximal Watershed): ", PERCWET_PR)
+                   , paste0("Result: Wetland land cover does not exceed CALM NBC thresholds. "
+                            , "The DO violations are not to be considered natural.")
+                   , sep="<br/>"))
+      })#renderUI ~ END
     } else {
       output$output_wetland1 <- renderUI({
         HTML(paste(paste0("% Wetlands (Proximal Watershed): ", PERCWET_PR)
@@ -170,10 +176,13 @@ shinyServer(function(input, output) {
                             , "The DO violations may be considered natural.")
                    , sep="<br/>"))
       })#renderUI ~ END
+      output$output_wetland2 <- renderUI({
+        HTML(paste(paste0("% Wetlands (Proximal Watershed): ", PERCWET_PR)
+                   , paste0("Result: Wetland land cover does not exceed CALM NBC thresholds. "
+                            , "The DO violations are not to be considered natural.")
+                   , sep="<br/>"))
+      })#renderUI ~ END
     }# if/else ~ END
-    
-    
-    
     
     output$output_dam_count1 <- renderUI({
       HTML(paste0("Number of Dams in AU: ", nDams))
