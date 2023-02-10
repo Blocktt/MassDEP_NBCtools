@@ -6,6 +6,8 @@ function() {
              sidebarPanel(
                width = 3
                ,h2("pH Evaluation")
+               ,p(strong("Chosen AU:"), textOutput("output_AU_choice5", inline = T)
+                  , style = "font-size:20px;")
                # Wetland land cover
                ,selectInput(inputId = "input_wetland2_choice"
                             ,label = "Is wetland land cover a potential source of pH violations (>7%)?"

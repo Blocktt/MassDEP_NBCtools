@@ -371,6 +371,10 @@ shinyServer(function(input, output) {
       }# if/else ~ END
     })#observeEvent ~ END
     
+    output$output_tempcrit_choice <- renderText({input$input_tempcrit_choice})
+    output$output_tempspike_choice <- renderText({input$input_tempspike_choice})
+    output$output_imperv_choice <- renderText({input$input_imperv_choice})
+    
     ## DO Outputs ####
     output$output_AU_choice3 <- renderText({input$input_AU_choice})
     
@@ -409,4 +413,10 @@ shinyServer(function(input, output) {
         })#renderUI ~ END
       }# if/else ~ END
     })#observeEvent ~ END
+    
+    ## TP Outputs ####
+    output$output_AU_choice4 <- renderText({input$input_AU_choice})
+    
+    ## pH Outputs ####
+    output$output_AU_choice5 <- renderText({input$input_AU_choice})
 })##shinyServer ~ END
