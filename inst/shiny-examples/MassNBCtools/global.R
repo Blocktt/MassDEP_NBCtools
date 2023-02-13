@@ -20,6 +20,7 @@ library(markdown)
 library(tidyr)
 library(leaflet)
 library(capture)
+library(sf)
 
 # Source ----
 db_main_sb           <- source("external/db_main_sb.R", local = TRUE)$value
