@@ -55,7 +55,12 @@ function() {
                , textOutput("output_notes")
              ) # sidebarPanel
              , mainPanel(
-               
+               #https://github.com/dreamRs/capture
+               capture::capture(selector = "body"
+                                 , filename = "all-page.png"
+                                 , icon("camera-retro")
+                                 , "Take screenshot of entire page"
+                                 , class = "btn-primary")
              ) # mainPanel
            ) # sidebarLayout
   )##tabPanel ~ END
