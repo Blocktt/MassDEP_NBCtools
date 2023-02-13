@@ -10,7 +10,7 @@
 library(shiny)
 
 # Define server logic
-shinyServer(function(input, output) {
+shinyServer(function(input, output, session) {
   
   # modal dialog ####
   myModal <- modalDialog(
