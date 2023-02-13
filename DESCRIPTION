@@ -1,7 +1,7 @@
 Package: MassNBCtools
 Type: Package
 Title: Used to determine natural background conditions in Massachusetts waterbodies.
-Version: 0.0.0.9000
+Version: 0.0.1.9400
 Authors@R: c(
   person("Ben", "Block", email="Ben.Block@tetratech.com", role=c("cre", "aut")))
 Maintainer: Ben Block <Ben.Block@tetratech.com>
