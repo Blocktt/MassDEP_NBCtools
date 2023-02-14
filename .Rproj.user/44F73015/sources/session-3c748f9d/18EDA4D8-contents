@@ -1,7 +1,7 @@
 # Shiny Global File
 
 # Version ----
-pkg_version <- "v0.0.1.9400"
+pkg_version <- "v0.0.1.9402"
 
 # Packages----
 library(shiny)
@@ -53,6 +53,8 @@ df_all_AUs <- df_305BasinMerge2022 %>%
   select(AU_ID) %>% 
   distinct()%>% 
   mutate(InGIS = "Yes")
+
+AU_list <- df_all_AUs[,1]
 
 # GIS/Map data ####
 # AU polygons

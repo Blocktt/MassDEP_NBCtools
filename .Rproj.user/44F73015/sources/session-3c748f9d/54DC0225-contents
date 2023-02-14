@@ -12,6 +12,11 @@ library(shiny)
 # Define server logic
 shinyServer(function(input, output, session) {
   
+  # Update AU list
+  updateSelectizeInput(inputId = "input_AU_choice"
+                       , choices = c("", AU_list)
+                       , server = TRUE)
+  
   # modal dialog ####
   myModal <- modalDialog(
     title = "Welcome to the Massachusetts Natural Background Conditions App!"

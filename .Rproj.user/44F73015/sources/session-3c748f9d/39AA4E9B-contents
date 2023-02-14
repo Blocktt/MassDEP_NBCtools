@@ -10,9 +10,12 @@ function() {
                          ,label = "Analyst Name:"
                          ,placeholder = "Type your name here!")
                # Choose AU
-               ,selectInput(inputId = "input_AU_choice"
-                            ,label = "Assessment Unit (AU):"
-                            ,choices = c("", unique(df_all_AUs$AU_ID))) # selectInput
+               # ,selectInput(inputId = "input_AU_choice"
+               #              ,label = "Assessment Unit (AU):"
+               #              ,choices = c("", unique(df_all_AUs$AU_ID))) # selectInput
+               ,selectizeInput(inputId = "input_AU_choice"
+                               , label = "Assessment Unit (AU):"
+                               , choices = NULL)
                # Q: Land cover
                ,selectInput(inputId = "input_Nat_Land_choice"
                             ,label = "Does land cover indicate natural conditions?"
