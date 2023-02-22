@@ -12,10 +12,11 @@ library(shiny)
 # Define server logic
 shinyServer(function(input, output, session) {
   
-  # Update AU list
+  # Update AU list ####
   updateSelectizeInput(inputId = "input_AU_choice"
                        , choices = c("", AU_list)
-                       , server = TRUE)
+                       , server = TRUE
+                       , options=list(maxOptions=2500))
   
   # modal dialog ####
   myModal <- modalDialog(
