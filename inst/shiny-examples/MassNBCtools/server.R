@@ -172,7 +172,7 @@ shinyServer(function(input, output, session) {
       output$output_wetland2 <- renderUI({
         HTML(paste(paste0("% Wetlands (Proximal Watershed): ", PERCWET_PR)
                    , paste0("Result: Wetland land cover does not exceed CALM NBC thresholds. "
-                            , "The DO violations are not to be considered natural.")
+                            , "The pH violations are not to be considered natural.")
                    , sep="<br/>"))
       })#renderUI ~ END
     } else {
@@ -185,7 +185,7 @@ shinyServer(function(input, output, session) {
       output$output_wetland2 <- renderUI({
         HTML(paste(paste0("% Wetlands (Proximal Watershed): ", PERCWET_PR)
                    , paste0("Result: Wetland land cover does not exceed CALM NBC thresholds. "
-                            , "The DO violations are not to be considered natural.")
+                            , "The pH violations are not to be considered natural.")
                    , sep="<br/>"))
       })#renderUI ~ END
     }# if/else ~ END
@@ -220,6 +220,8 @@ shinyServer(function(input, output, session) {
     output$output_TempClass <- renderUI({
       HTML(paste0(AU_TempClassQual))
       })#renderUI ~ END
+    
+    output$output_Area_SQ_MI <- renderText({round(Area_SQ_MI,3)})
     
   })#observeEvent ~ END
   

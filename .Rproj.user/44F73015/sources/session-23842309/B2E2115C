@@ -12,16 +12,16 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "12,27",
-        "scrollLine": "0",
-        "docOutlineVisible": "0"
+        "cursorPosition": "354,69",
+        "scrollLine": "349",
+        "docOutlineVisible": "1"
     },
     "folds": "",
-    "lastKnownWriteTime": 1677167157,
+    "lastKnownWriteTime": 1677182372,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1677167157152,
+    "last_content_update": 1677182372486,
     "read_only": false,
     "read_only_alternatives": []
 }
