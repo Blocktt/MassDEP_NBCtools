@@ -56,6 +56,7 @@ function() {
                                  , icon("camera-retro")
                                  , "Take screenshot of map only"
                                  , class = "btn-info")
+               ,img(src = "Map_Legend.png", height = 200)
                
              ) # sidebarPanel
              , mainPanel(

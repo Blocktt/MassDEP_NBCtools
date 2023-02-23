@@ -1,0 +1,27 @@
+{
+    "id": "82511B31",
+    "path": "C:/Users/ben.block/OneDrive - Tetra Tech, Inc/GitHub/MassNBCtools/inst/shiny-examples/MassNBCtools/external/tab_Gen_input.R",
+    "project_path": "inst/shiny-examples/MassNBCtools/external/tab_Gen_input.R",
+    "type": "r_source",
+    "hash": "4179445353",
+    "contents": "",
+    "dirty": false,
+    "created": 1677161273479.0,
+    "source_on_save": false,
+    "relative_order": 2,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "57,54",
+        "scrollLine": "48",
+        "docOutlineVisible": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1677162557,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1677162557968,
+    "read_only": false,
+    "read_only_alternatives": []
+}
