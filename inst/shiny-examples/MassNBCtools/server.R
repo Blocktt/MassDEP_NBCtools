@@ -310,13 +310,14 @@ shinyServer(function(input, output, session) {
       req(input$input_AU_choice != "")
       
       myAU <- input$input_AU_choice
-      #myAU <- "MA97-23"
+      
       df_AUCentroids_select <- df_AUCentroids %>% 
         filter(AU_ID == myAU)
       AU_long <- df_AUCentroids_select$Longitude # longitude
       AU_lat <- df_AUCentroids_select$Latitude # latitude
 
       GISlayer_AUpoly_select <- GISlayer_AUpoly[GISlayer_AUpoly$AU_ID == myAU,]
+      GISlayer_AUflow_select <- GISlayer_AUflow[GISlayer_AUflow$AU_ID == myAU,]
       
       # modfiy map
       leafletProxy("mymap") %>%
@@ -324,6 +325,9 @@ shinyServer(function(input, output, session) {
         addPolygons(data = GISlayer_AUpoly_select, color = "black", weight = 2
                     , fillColor = "red", label = GISlayer_AUpoly_select$AU_ID
                     , group = "AU_selected", layerId = "layer_AU_selected") %>%
+        addPolylines(data = GISlayer_AUflow_select, color = "green", weight = 3
+                     , label = GISlayer_AUflow_select$AU_ID
+                     , group = "AU_arc_selected", layerId = "layer_AU_arc_selected") %>%
         setView(lng = AU_long, lat = AU_lat, zoom = 12)
     })#observeEvent ~ END
 
