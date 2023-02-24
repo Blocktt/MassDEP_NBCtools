@@ -1,11 +1,16 @@
 MassNBCtools-NEWS
 ================
 <Ben.Block@tetratech.com>
-2023-02-14 09:17:38
+2023-02-24 12:32:58
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
 
-    #> Last Update: 2023-02-14 09:17:38
+    #> Last Update: 2023-02-24 12:32:58
+
+# MassNBCtools 0.0.2.9000 (2023-02-24)
+
+- update: completed second draft version
+- competed updates from MassDEP
 
 # MassNBCtools 0.0.1.9400 (2023-02-13)
 
