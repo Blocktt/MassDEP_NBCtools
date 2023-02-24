@@ -4,7 +4,7 @@ function(){
   tabPanelBody("tabpan_metal",
            sidebarLayout(
              sidebarPanel(
-               width = 4
+               width = 5
                ,h2("Metals Evaluation")
                ,p(strong("Chosen AU:"), textOutput("output_AU_choice6", inline = T)
                   , style = "font-size:20px;")

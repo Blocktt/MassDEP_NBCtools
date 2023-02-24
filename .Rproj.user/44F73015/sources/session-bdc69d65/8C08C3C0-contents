@@ -5,10 +5,11 @@ function(){
            sidebarLayout(
              sidebarPanel(
                img(src = "MassDEPlogo.png", height = 200)
-               , width = 2
+               , width = 3
              )# sidebarPanel~END
              , mainPanel(
                includeHTML("www/App_FAQ.html")
+               , width = 7
              )# mainPanel~END
            )# sidebarLayout~END
   ) # tabPanelBody~END

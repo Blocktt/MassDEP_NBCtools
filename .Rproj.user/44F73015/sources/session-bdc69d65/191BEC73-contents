@@ -4,7 +4,7 @@ function() {
   tabPanelBody("tabpan_pH"
            , sidebarLayout(
              sidebarPanel(
-               width = 4
+               width = 3
                ,h2("pH Evaluation")
                ,p(strong("Chosen AU:"), textOutput("output_AU_choice5", inline = T)
                   , style = "font-size:20px;")
