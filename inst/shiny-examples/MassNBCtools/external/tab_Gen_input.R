@@ -10,34 +10,31 @@ function() {
                          ,label = "Analyst Name:"
                          ,placeholder = "Type your name here!")
                # Choose AU
-               # ,selectInput(inputId = "input_AU_choice"
-               #              ,label = "Assessment Unit (AU):"
-               #              ,choices = c("", unique(df_all_AUs$AU_ID))) # selectInput
                ,selectizeInput(inputId = "input_AU_choice"
                                , label = "Assessment Unit (AU):"
                                , choices = NULL)
                # Q: Land cover
                ,selectInput(inputId = "input_Nat_Land_choice"
-                            ,label = "Does land cover indicate natural conditions?"
-                            ,choices = c("","Yes","No","Unclear")) # selectInput
+                            ,label = "Does insufficient natural land cover eliminate natural conditions status?"
+                            ,choices = c("","Yes","No")) # selectInput
                , htmlOutput("output_LC_Results1")
                , br()
                # Q: Dams
                ,selectInput(inputId = "input_Dam_choice"
-                            ,label = "Are dams a potential source of impairment?"
-                            ,choices = c("","Yes","No","Unclear")) # selectInput
+                            ,label = "Do dams eliminate natural conditions status?"
+                            ,choices = c("","Yes","No")) # selectInput
                , htmlOutput("output_dam_count1")
                , br()
                # Q: Point sources
                ,selectInput(inputId = "input_PtSrc_choice"
-                            ,label = "Are point source discharges a potential source of impairment?"
-                            ,choices = c("","Yes","No","Unclear")) # selectInput
+                            ,label = "Do point source discharges eliminate natural conditions status?"
+                            ,choices = c("","Yes","No")) # selectInput
                , htmlOutput("output_ptsrc_counts1")
                , br()
                # Q: Water Withdrawal
                ,selectInput(inputId = "input_Withdrawal_choice"
-                            ,label = "Are water withdrawals a potential source of impairment?"
-                            ,choices = c("","Yes","No","Unclear")) # selectInput
+                            ,label = "Do water withdrawals eliminate natural conditions status?"
+                            ,choices = c("","Yes","No")) # selectInput
                , htmlOutput("output_pctZone2_1")
                , br()
                # Notes

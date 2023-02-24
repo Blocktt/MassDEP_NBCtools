@@ -88,18 +88,18 @@ shinyServer(function(input, output, session) {
     PctNat_CompBuf <- PERCNAT_ST + PERCWET_ST
     PctNat_ProxBuf <- PERCNAT_SP + PERCWET_SP
     
-    # per Appendix A Table A1 (2022 CALM)
-    if (Area_SQ_MI >= 25 & Min_PctNat_CompWs_ProxWs > 80 
-        & PctNat_ProxBuf >90) {
-      NatResult <- paste("Natural land cover exceeds CALM NBC thresholds.")
-    } else if (Area_SQ_MI < 25 & Min_PctNat_CompWs_ProxWs > 80 
-               & PctNat_CompBuf >90) {
-      NatResult <- paste("Natural land cover exceeds CALM NBC thresholds.")
-    } else {
-      NatResult <- paste("Natural land cover does not exceed CALM NBC thresholds."
-                         , "Do not consider AU for natural background conditions.")
-        
-    }# if/else ~ END
+    # # per Appendix A Table A1 (2022 CALM)
+    # if (Area_SQ_MI >= 25 & Min_PctNat_CompWs_ProxWs > 80 
+    #     & PctNat_ProxBuf >90) {
+    #   NatResult <- paste("Natural land cover exceeds CALM NBC thresholds.")
+    # } else if (Area_SQ_MI < 25 & Min_PctNat_CompWs_ProxWs > 80 
+    #            & PctNat_CompBuf >90) {
+    #   NatResult <- paste("Natural land cover exceeds CALM NBC thresholds.")
+    # } else {
+    #   NatResult <- paste("Natural land cover does not exceed CALM NBC thresholds."
+    #                      , "Do not consider AU for natural background conditions.")
+    #     
+    # }# if/else ~ END
   
     # point source counts
     nDams <- AU_Data_trimmed$nDams
@@ -119,14 +119,14 @@ shinyServer(function(input, output, session) {
         HTML(paste(paste0("% Natural (Minimum of Watershed Scales): ", Min_PctNat_CompWs_ProxWs)
                    , paste0("% Natural (Proximate Stream Buffer): ",PctNat_ProxBuf)
                    , paste0("% Impervious: ", PercImp)
-                   , paste0("Result: ", NatResult)
+                   # , paste0("Result: ", NatResult)
                    , sep="<br/>"))
       })#renderUI ~ END
       output$output_LC_Results2 <- renderUI({
         HTML(paste(paste0("% Natural (Minimum of Watershed Scales): ", Min_PctNat_CompWs_ProxWs)
                    , paste0("% Natural (Proximate Stream Buffer): ",PctNat_ProxBuf)
                    , paste0("% Impervious: ", PercImp)
-                   , paste0("Result: ", NatResult)
+                   # , paste0("Result: ", NatResult)
                    , sep="<br/>"))
       })#renderUI ~ END
     } else {
@@ -134,14 +134,14 @@ shinyServer(function(input, output, session) {
         HTML(paste(paste0("% Natural (Minimum of Watershed Scales): ", Min_PctNat_CompWs_ProxWs)
                    , paste0("% Natural (Complete Stream Buffer): ",PctNat_CompBuf)
                    , paste0("% Impervious: ", PercImp)
-                   , paste0("Result: ", NatResult)
+                   # , paste0("Result: ", NatResult)
                    , sep="<br/>"))
       })#renderUI ~ END
       output$output_LC_Results2 <- renderUI({
         HTML(paste(paste0("% Natural (Minimum of Watershed Scales): ", Min_PctNat_CompWs_ProxWs)
                    , paste0("% Natural (Complete Stream Buffer): ",PctNat_CompBuf)
                    , paste0("% Impervious: ", PercImp)
-                   , paste0("Result: ", NatResult)
+                   # , paste0("Result: ", NatResult)
                    , sep="<br/>"))
       })#renderUI ~ END
     }# if/else ~ END
@@ -338,104 +338,218 @@ shinyServer(function(input, output, session) {
     ## General Outputs ####
     output$output_analyst <- renderText({input$input_analyst})
     output$output_AU_choice1 <- renderText({input$input_AU_choice})
-    output$output_Nat_Land_choice <- renderText({input$input_Nat_Land_choice})
-    output$output_Dam_choice <- renderText({input$input_Dam_choice})
-    output$output_PtSrc_choice <- renderText({input$input_PtSrc_choice})
-    output$output_Withdrawal_choice <- renderText({input$input_Withdrawal_choice})
-    output$output_notes <- renderText({input$input_notes})
-    
-    ## Temp Outputs ####
-    output$output_AU_choice2 <- renderText({input$input_AU_choice})
-    
-    observeEvent(input$input_tempcrit_choice, {
-      req(input$input_tempcrit_choice != "")
+    ### Nat Land ####
+    output$output_Nat_Land_choice1 <- renderText({input$input_Nat_Land_choice})
+    observeEvent(input$input_Nat_Land_choice, {
+      req(input$input_Nat_Land_choice != "")
       
-      if (input$input_tempcrit_choice == "Cold-Water") {
-        output$output_tempcrit <- renderUI({
-          paste("The temperature violations may be considered natural.")
-        })#renderUI ~ END
-      } else if (input$input_tempcrit_choice == "Warm-Water") {
-        output$output_tempcrit <- renderUI({
-          paste("The temperature violations are not to be considered natural.")
+      if (input$input_Nat_Land_choice == "No") {
+        output$output_Nat_Land_choice2 <- renderUI({
+          paste("Natural land cover does not eliminate natural conditions status.")
         })#renderUI ~ END
       } else {
-        output$output_tempcrit <- renderUI({
-          paste("")
-        })#renderUI ~ END
-      }# if/else ~ END
-      })#observeEvent ~ END
-    
-    observeEvent(input$input_tempspike_choice, {
-      req(input$input_tempspike_choice != "")
-      
-      if (input$input_tempspike_choice == "No") {
-        output$output_tempspike <- renderUI({
-          paste("The temperature violations may be considered natural.")
-        })#renderUI ~ END
-      } else if (input$input_tempspike_choice == "Yes") {
-        output$output_tempspike <- renderUI({
-          paste("The temperature violations are not to be considered natural.")
-        })#renderUI ~ END
-      } else {
-        output$output_tempspike <- renderUI({
-          paste("")
+        output$output_Nat_Land_choice2 <- renderUI({
+          paste("Insufficient natural land cover eliminates natural conditions status.")
         })#renderUI ~ END
       }# if/else ~ END
     })#observeEvent ~ END
     
-    output$output_tempcrit_choice <- renderText({input$input_tempcrit_choice})
-    output$output_tempspike_choice <- renderText({input$input_tempspike_choice})
-    output$output_imperv_choice <- renderText({input$input_imperv_choice})
+    ### Dams ####
+    output$output_Dam_choice1 <- renderText({input$input_Dam_choice})
+    observeEvent(input$input_Dam_choice, {
+      req(input$input_Dam_choice != "")
+      
+      if (input$input_Dam_choice == "No") {
+        output$output_Dam_choice2 <- renderUI({
+          paste("Dams do not eliminate natural conditions status.")
+        })#renderUI ~ END
+      } else {
+        output$output_Dam_choice2 <- renderUI({
+          paste("Dams eliminate natural conditions status.")
+        })#renderUI ~ END
+      }# if/else ~ END
+    })#observeEvent ~ END
+    
+    ### PtSrc ####
+    output$output_PtSrc_choice1 <- renderText({input$input_PtSrc_choice})
+    observeEvent(input$input_PtSrc_choice, {
+      req(input$input_PtSrc_choice != "")
+      
+      if (input$input_PtSrc_choice == "No") {
+        output$output_PtSrc_choice2 <- renderUI({
+          paste("Point source discharges do not eliminate natural conditions status.")
+        })#renderUI ~ END
+      } else {
+        output$output_PtSrc_choice2 <- renderUI({
+          paste("Point source discharges eliminate natural conditions status.")
+        })#renderUI ~ END
+      }# if/else ~ END
+    })#observeEvent ~ END
+    
+    ### WthDrwl ####
+    output$output_Withdrawal_choice1 <- renderText({input$input_Withdrawal_choice})
+    observeEvent(input$input_Withdrawal_choice, {
+      req(input$input_Withdrawal_choice != "")
+      
+      if (input$input_Withdrawal_choice == "No") {
+        output$output_Withdrawal_choice2 <- renderUI({
+          paste("Water withdrawals do not eliminate natural conditions status.")
+        })#renderUI ~ END
+      } else {
+        output$output_Withdrawal_choice2 <- renderUI({
+          paste("Water withdrawals eliminate natural conditions status.")
+        })#renderUI ~ END
+      }# if/else ~ END
+    })#observeEvent ~ END
+    
+    output$output_notes <- renderText({input$input_notes})
+    
+    ## Temp Outputs ####
+    output$output_AU_choice2 <- renderText({input$input_AU_choice})
+    output$output_tempcrit_choice1 <- renderText({input$input_tempcrit_choice})
+    observeEvent(input$input_tempcrit_choice, {
+      req(input$input_tempcrit_choice != "")
+      
+      if (input$input_tempcrit_choice == "Cold-Water") {
+        output$output_tempcrit_choice2 <- renderUI({
+          paste("The cold-water temperature violations do not eliminate natural conditions status.")
+        })#renderUI ~ END
+      } else {
+        output$output_tempcrit_choice2 <- renderUI({
+          paste("The warm-water temperature violations eliminate natural conditions status.")
+        })#renderUI ~ END
+      }# if/else ~ END
+      })#observeEvent ~ END
+    
+    output$output_tempspike_choice1 <- renderText({input$input_tempspike_choice})
+    observeEvent(input$input_tempspike_choice, {
+      req(input$input_tempspike_choice != "")
+      
+      if (input$input_tempspike_choice == "No") {
+        output$output_tempspike_choice2 <- renderUI({
+          paste("Isolated temperature spike(s) do not eliminate natural conditions status.")
+        })#renderUI ~ END
+      } else {
+        output$output_tempspike_choice2 <- renderUI({
+          paste("Isolated temperature spike(s) eliminate natural conditions status.")
+        })#renderUI ~ END
+      }# if/else ~ END
+    })#observeEvent ~ END
+    
+    output$output_imperv_choice1 <- renderText({input$input_imperv_choice})
+    observeEvent(input$input_imperv_choice, {
+      req(input$input_imperv_choice != "")
+      
+      if (input$input_imperv_choice == "No") {
+        output$output_imperv_choice2 <- renderUI({
+          paste("Impervious land cover does not eliminate natural conditions status.")
+        })#renderUI ~ END
+      } else {
+        output$output_imperv_choice2 <- renderUI({
+          paste("Impervious land cover eliminates natural conditions status.")
+        })#renderUI ~ END
+      }# if/else ~ END
+    })#observeEvent ~ END
     
     ## DO Outputs ####
     output$output_AU_choice3 <- renderText({input$input_AU_choice})
+    output$output_dospike_choice1 <- renderText({input$input_dospike_choice})
     
     observeEvent(input$input_dospike_choice, {
       req(input$input_dospike_choice != "")
       
       if (input$input_dospike_choice == "No") {
-        output$output_dospike <- renderUI({
-          paste("The DO violations may be considered natural.")
-        })#renderUI ~ END
-      } else if (input$input_dospike_choice == "Yes") {
-        output$output_dospike <- renderUI({
-          paste("The DO violations are not to be considered natural.")
+        output$output_dospike_choice2 <- renderUI({
+          paste("Isolated DO spike(s) do not eliminate natural conditions status.")
         })#renderUI ~ END
       } else {
-        output$output_dospike <- renderUI({
-          paste("")
+        output$output_dospike_choice2 <- renderUI({
+          paste("Isolated DO spike(s) eliminate natural conditions status.")
         })#renderUI ~ END
       }# if/else ~ END
     })#observeEvent ~ END
+    
+    output$output_dodiurnal_choice1 <- renderText({input$input_dodiurnal_choice})
     
     observeEvent(input$input_dodiurnal_choice, {
       req(input$input_dodiurnal_choice != "")
       
       if (input$input_dodiurnal_choice == "No") {
-        output$output_dodiurnal <- renderUI({
-          paste("The DO violations may be considered natural.")
-        })#renderUI ~ END
-      } else if (input$input_dodiurnal_choice == "Yes") {
-        output$output_dodiurnal <- renderUI({
-          paste("The DO violations are not to be considered natural.")
+        output$output_dodiurnal_choice2 <- renderUI({
+          paste("Diurnal DO concentration shifts do not eliminate natural conditions status.")
         })#renderUI ~ END
       } else {
-        output$output_dodiurnal <- renderUI({
-          paste("")
+        output$output_dodiurnal_choice2 <- renderUI({
+          paste("Diurnal DO concentration shifts eliminate natural conditions status.")
         })#renderUI ~ END
       }# if/else ~ END
     })#observeEvent ~ END
     
-    output$output_dospike_choice <- renderText({input$input_dospike_choice})
-    output$output_dodiurnal_choice <- renderText({input$input_dodiurnal_choice})
-    output$output_wetland1_choice <- renderText({input$input_wetland1_choice})
+    output$output_wetland1_choice1 <- renderText({input$input_wetland1_choice})
+    
+    observeEvent(input$input_wetland1_choice, {
+      req(input$input_wetland1_choice != "")
+      
+      if (input$input_wetland1_choice == "No") {
+        output$output_wetland1_choice2 <- renderUI({
+          paste("Wetland land cover does not eliminate natural conditions status.")
+        })#renderUI ~ END
+      } else {
+        output$output_wetland1_choice2 <- renderUI({
+          paste("Wetland land cover eliminates natural conditions status.")
+        })#renderUI ~ END
+      }# if/else ~ END
+    })#observeEvent ~ END
     
     ## TP Outputs ####
     output$output_AU_choice4 <- renderText({input$input_AU_choice})
-    output$output_geoTP_choice <- renderText({input$input_geoTP_choice})
+    output$output_geoTP_choice1 <- renderText({input$input_geoTP_choice})
+    
+    observeEvent(input$input_geoTP_choice, {
+      req(input$input_geoTP_choice != "")
+      
+      if (input$input_geoTP_choice == "No") {
+        output$output_geoTP_choice2 <- renderUI({
+          paste("Lithology does not eliminate natural conditions status.")
+        })#renderUI ~ END
+      } else {
+        output$output_geoTP_choice2 <- renderUI({
+          paste("Lithology eliminates natural conditions status.")
+        })#renderUI ~ END
+      }# if/else ~ END
+    })#observeEvent ~ END
     
     ## pH Outputs ####
     output$output_AU_choice5 <- renderText({input$input_AU_choice})
-    output$output_wetland2_choice <- renderText({input$input_wetland2_choice})
+    output$output_wetland2_choice1 <- renderText({input$input_wetland2_choice})
+    
+    observeEvent(input$input_wetland2_choice, {
+      req(input$input_wetland2_choice != "")
+      
+      if (input$input_wetland2_choice == "No") {
+        output$output_wetland2_choice2 <- renderUI({
+          paste("Wetland land cover does not eliminate natural conditions status.")
+        })#renderUI ~ END
+      } else {
+        output$output_wetland2_choice2 <- renderUI({
+          paste("Wetland land cover eliminates natural conditions status.")
+        })#renderUI ~ END
+      }# if/else ~ END
+    })#observeEvent ~ END
+    
+    ## NBC Determination ####
+    observeEvent(input$input_NBC_choice, {
+      req(input$input_NBC_choice != "")
+      
+      if (input$input_NBC_choice == "No") {
+        output$output_NBC_choice <- renderText({
+          paste("Natural background conditions are unlikely the cause of the water quality impairment.")
+        })#renderText ~ END
+      } else {
+        output$output_NBC_choice <- renderText({
+          paste("Natural background conditions are likely the cause of the water quality impairment.")
+        })#renderText ~ END
+      }# if/else ~ END
+    })#observeEvent ~ END
     
 })##shinyServer ~ END

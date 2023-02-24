@@ -14,21 +14,22 @@ function() {
                         , "via the WPP internal data warehouse holdings (by OWMID)"
                         , "and via our external data holdings (see Bob Smith)."))
                ,selectInput(inputId = "input_dospike_choice"
-                            ,label = "Is the DO violation the result of isolated spike(s)?"
-                            ,choices = c("","Yes","No","Unclear")) # selectInput
-               , htmlOutput("output_dospike")
+                            ,label = "Do isolated DO spike(s) eliminate natural conditions status?"
+                            ,choices = c("","Yes","No")) # selectInput
+               
                
                # DO diurnal
                ,selectInput(inputId = "input_dodiurnal_choice"
                             ,label = "Is the diurnal shift in DO concentration ever greater than 3 mg/L?"
-                            ,choices = c("","Yes","No","Unclear")) # selectInput
-               , htmlOutput("output_dodiurnal")
+                            ,choices = c("","Yes","No")) # selectInput
+               
                
                # Wetland land cover
                ,selectInput(inputId = "input_wetland1_choice"
-                            ,label = "Is wetland land cover a potential source of DO violations (>7%)?"
-                            ,choices = c("","Yes","No","Unclear")) # selectInput
+                            ,label = "Does insufficient wetland land cover eliminate natural conditions status (<7%)?"
+                            ,choices = c("","Yes","No")) # selectInput
                , htmlOutput("output_wetland1")
+               
              ) # sidebarPanel
              , mainPanel(
                

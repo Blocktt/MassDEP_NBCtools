@@ -15,48 +15,73 @@ function() {
                , p(strong("AU Area (Sq Mi):"), textOutput("output_Area_SQ_MI", inline = T)
                    , style = "font-size:20px;")
                # Land evaluation
-               , p(strong("Natural land cover:"), textOutput("output_Nat_Land_choice", inline = T)
+               , p(strong("Natural land cover:"), textOutput("output_Nat_Land_choice1", inline = T)
                    , style = "font-size:20px;")
+               , htmlOutput("output_Nat_Land_choice2")
                , htmlOutput("output_LC_Results2")
                # , br()
-               , p(strong("Dam impairment:"), textOutput("output_Dam_choice", inline = T)
+               , p(strong("Dam impairment:"), textOutput("output_Dam_choice1", inline = T)
                    , style = "font-size:20px;")
+               , htmlOutput("output_Dam_choice2")
                , htmlOutput("output_dam_count2")
                # , br()
-               , p(strong("Point source impairment:"), textOutput("output_PtSrc_choice", inline = T)
+               , p(strong("Point source impairment:"), textOutput("output_PtSrc_choice1", inline = T)
                    , style = "font-size:20px;")
+               , htmlOutput("output_PtSrc_choice2")
                , htmlOutput("output_ptsrc_counts2")
                # , br()
-               , p(strong("Water withdrawal impairment:"), textOutput("output_Withdrawal_choice", inline = T)
+               , p(strong("Water withdrawal impairment:"), textOutput("output_Withdrawal_choice1", inline = T)
                    , style = "font-size:20px;")
+               , htmlOutput("output_Withdrawal_choice2")
                , htmlOutput("output_pctZone2_2")
                # , br()
                # Temperature
                , p(strong("Temperature impairments:"), style = "font-size:20px;")
-               , p(strong("Temperature critieria violation:"), textOutput("output_tempcrit_choice", inline = T)
+               , p(strong("Temperature critieria violation:"), textOutput("output_tempcrit_choice1", inline = T)
                    , style = "font-size:15px;")
-               , p(strong("Temperature isolated spikes:"), textOutput("output_tempspike_choice", inline = T)
+               , htmlOutput("output_tempcrit_choice2")
+               , p(strong("Temperature isolated spikes:"), textOutput("output_tempspike_choice1", inline = T)
                    , style = "font-size:15px;")
-               , p(strong("Impervious land cover impairment:"), textOutput("output_imperv_choice", inline = T)
+               , htmlOutput("output_tempspike_choice2")
+               , p(strong("Impervious land cover impairment:"), textOutput("output_imperv_choice1", inline = T)
                    , style = "font-size:15px;")
+               , htmlOutput("output_imperv_choice2")
+               
                # DO
                , p(strong("DO impairments:"), style = "font-size:20px;")
-               , p(strong("DO isolated spikes:"), textOutput("output_dospike_choice", inline = T)
+               , p(strong("DO isolated spikes:"), textOutput("output_dospike_choice1", inline = T)
                    , style = "font-size:15px;")
-               , p(strong("DO diurnal shift:"), textOutput("output_dodiurnal_choice", inline = T)
+               , htmlOutput("output_dospike_choice2")
+               , p(strong("DO diurnal shift:"), textOutput("output_dodiurnal_choice1", inline = T)
                    , style = "font-size:15px;")
-               , p(strong("DO Wetland LC impairment:"), textOutput("output_wetland1_choice", inline = T)
+               , htmlOutput("output_dodiurnal_choice2")
+               , p(strong("DO Wetland LC impairment:"), textOutput("output_wetland1_choice1", inline = T)
                    , style = "font-size:15px;")
+               , htmlOutput("output_wetland1_choice2")
                # TP
-               , p(strong("TP Lithology impairment:"), textOutput("output_geoTP_choice", inline = T)
+               , p(strong("TP Lithology impairment:"), textOutput("output_geoTP_choice1", inline = T)
                    , style = "font-size:20px;")
+               , htmlOutput("output_geoTP_choice2")
+               
                # pH
-               , p(strong("pH Wetland LC impairment:"), textOutput("output_wetland2_choice", inline = T)
+               , p(strong("pH Wetland LC impairment:"), textOutput("output_wetland2_choice1", inline = T)
                    , style = "font-size:20px;")
+               , htmlOutput("output_wetland2_choice2")
+               
                # Notes
                , p(strong("General notes:"), style = "font-size:20px;")
                , textOutput("output_notes")
-             ) # sidebarPanel
+               
+               # NBC Determination
+               ,selectInput(inputId = "input_NBC_choice"
+                            ,label = "Is the water quality impairment due to NBC?"
+                            ,choices = c("","Yes","No")) # selectInput
+               , p(strong(textOutput("output_NBC_choice", inline = T))
+                   , style = "font-size:20px;")
+               
+               
+               ) # sidebarPanel
+             
              , mainPanel(
                #https://github.com/dreamRs/capture
                capture::capture(selector = "div.col-sm-5" #body

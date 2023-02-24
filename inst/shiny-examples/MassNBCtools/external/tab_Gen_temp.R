@@ -17,20 +17,19 @@ function() {
                # Temperature criteria
                ,selectInput(inputId = "input_tempcrit_choice"
                             ,label = "Which temperature criteria were violated, the warm water (28.3C) or cold water (20.0C)?"
-                            ,choices = c("","Warm-Water","Cold-Water","Unclear")) # selectInput
-               , htmlOutput("output_tempcrit")
+                            ,choices = c("","Warm-Water","Cold-Water")) # selectInput
                
                # Temperature spikes
                ,selectInput(inputId = "input_tempspike_choice"
-                            ,label = "Is the temperature violation the result of isolated spike(s)?"
-                            ,choices = c("","Yes","No","Unclear")) # selectInput
-               , htmlOutput("output_tempspike")
+                            ,label = "Do isolated temperature spike(s) eliminate natural conditions status?"
+                            ,choices = c("","Yes","No")) # selectInput
                
                # Impervious land cover
                ,selectInput(inputId = "input_imperv_choice"
-                            ,label = "Is impervious land cover a potential source of impairment?"
-                            ,choices = c("","Yes","No","Unclear")) # selectInput
+                            ,label = "Does impervious land cover eliminate natural conditions status (>4%)?"
+                            ,choices = c("","Yes","No")) # selectInput
                , htmlOutput("output_Imperv1")
+               
              ) # sidebarPanel
              , mainPanel(
                
