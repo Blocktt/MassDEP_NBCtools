@@ -537,6 +537,24 @@ shinyServer(function(input, output, session) {
       }# if/else ~ END
     })#observeEvent ~ END
     
+    ## Metals Outputs ####
+    output$output_AU_choice6 <- renderText({input$input_AU_choice})
+    output$output_geoMetal_choice1 <- renderText({input$input_geoMetal_choice})
+    
+    observeEvent(input$input_geoMetal_choice, {
+      req(input$input_geoMetal_choice != "")
+      
+      if (input$input_geoMetal_choice == "No") {
+        output$output_geoMetal_choice2 <- renderUI({
+          paste("Lithology does not eliminate natural conditions status.")
+        })#renderUI ~ END
+      } else {
+        output$output_geoMetal_choice2 <- renderUI({
+          paste("Lithology eliminates natural conditions status.")
+        })#renderUI ~ END
+      }# if/else ~ END
+    })#observeEvent ~ END
+    
     ## NBC Determination ####
     observeEvent(input$input_NBC_choice, {
       req(input$input_NBC_choice != "")
