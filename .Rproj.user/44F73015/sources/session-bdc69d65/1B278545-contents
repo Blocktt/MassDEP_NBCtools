@@ -149,15 +149,15 @@ shinyServer(function(input, output, session) {
     if (PercImp >= 4) {
       output$output_Imperv1 <- renderUI({
         HTML(paste(paste0("% Impervious: ", PercImp)
-                   , paste0("Result: Impervious land cover exceeds CALM NBC thresholds. "
-                            , "The temperature violations are not to be considered natural.")
+                   # , paste0("Result: Impervious land cover exceeds CALM NBC thresholds. "
+                   #          , "The temperature violations are not to be considered natural.")
                    , sep="<br/>"))
       })#renderUI ~ END
     } else {
       output$output_Imperv1 <- renderUI({
         HTML(paste(paste0("% Impervious: ", PercImp)
-                   , paste0("Result: Impervious land cover does not exceed CALM NBC thresholds. "
-                    , "The temperature violations may be considered natural.")
+                   # , paste0("Result: Impervious land cover does not exceed CALM NBC thresholds. "
+                   #  , "The temperature violations may be considered natural.")
                    , sep="<br/>"))
       })#renderUI ~ END
     }# if/else ~ END
@@ -165,27 +165,27 @@ shinyServer(function(input, output, session) {
     if (PERCWET_PR <= 7) {
       output$output_wetland1 <- renderUI({
         HTML(paste(paste0("% Wetlands (Proximal Watershed): ", PERCWET_PR)
-                   , paste0("Result: Wetland land cover does not exceed CALM NBC thresholds. "
-                            , "The DO violations are not to be considered natural.")
+                   # , paste0("Result: Wetland land cover does not exceed CALM NBC thresholds. "
+                   #          , "The DO violations are not to be considered natural.")
                    , sep="<br/>"))
       })#renderUI ~ END
       output$output_wetland2 <- renderUI({
         HTML(paste(paste0("% Wetlands (Proximal Watershed): ", PERCWET_PR)
-                   , paste0("Result: Wetland land cover does not exceed CALM NBC thresholds. "
-                            , "The pH violations are not to be considered natural.")
+                   # , paste0("Result: Wetland land cover does not exceed CALM NBC thresholds. "
+                   #          , "The pH violations are not to be considered natural.")
                    , sep="<br/>"))
       })#renderUI ~ END
     } else {
       output$output_wetland1 <- renderUI({
         HTML(paste(paste0("% Wetlands (Proximal Watershed): ", PERCWET_PR)
-                   , paste0("Result: Wetland land cover exceeds CALM NBC thresholds. "
-                            , "The DO violations may be considered natural.")
+                   # , paste0("Result: Wetland land cover exceeds CALM NBC thresholds. "
+                   #          , "The DO violations may be considered natural.")
                    , sep="<br/>"))
       })#renderUI ~ END
       output$output_wetland2 <- renderUI({
         HTML(paste(paste0("% Wetlands (Proximal Watershed): ", PERCWET_PR)
-                   , paste0("Result: Wetland land cover does not exceed CALM NBC thresholds. "
-                            , "The pH violations are not to be considered natural.")
+                   # , paste0("Result: Wetland land cover does not exceed CALM NBC thresholds. "
+                   #          , "The pH violations are not to be considered natural.")
                    , sep="<br/>"))
       })#renderUI ~ END
     }# if/else ~ END
