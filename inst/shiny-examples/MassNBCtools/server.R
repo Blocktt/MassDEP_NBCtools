@@ -557,6 +557,71 @@ shinyServer(function(input, output, session) {
     })#observeEvent ~ END
     
     ## NBC Determination ####
+    
+    # auto generated result
+    # toListen <- reactive({
+    #   list(input$input_Nat_Land_choice
+    #        ,input$input_Dam_choice
+    #        ,input$input_PtSrc_choice
+    #        ,input$input_Withdrawal_choice
+    #        ,input$input_tempcrit_choice
+    #        ,input$input_tempspike_choice
+    #        ,input$input_imperv_choice
+    #        ,input$input_dospike_choice
+    #        ,input$input_dodiurnal_choice
+    #        ,input$input_wetland1_choice
+    #        ,input$input_geoTP_choice
+    #        ,input$input_wetland2_choice
+    #        ,input$input_geoMetal_choice)
+    #   })
+    
+    observeEvent(ignoreInit = TRUE,c(
+      input$input_Nat_Land_choice
+      ,input$input_Dam_choice
+      ,input$input_PtSrc_choice
+      ,input$input_Withdrawal_choice
+      ,input$input_tempcrit_choice
+      ,input$input_tempspike_choice
+      ,input$input_imperv_choice
+      ,input$input_dospike_choice
+      ,input$input_dodiurnal_choice
+      ,input$input_wetland1_choice
+      ,input$input_geoTP_choice
+      ,input$input_wetland2_choice
+      ,input$input_geoMetal_choice
+    ), {
+      Question_Responses <- c(input$input_Nat_Land_choice
+                              ,input$input_Dam_choice
+                              ,input$input_PtSrc_choice
+                              ,input$input_Withdrawal_choice
+                              ,input$input_tempcrit_choice
+                              ,input$input_tempspike_choice
+                              ,input$input_imperv_choice
+                              ,input$input_dospike_choice
+                              ,input$input_dodiurnal_choice
+                              ,input$input_wetland1_choice
+                              ,input$input_geoTP_choice
+                              ,input$input_wetland2_choice
+                              ,input$input_geoMetal_choice)
+      Yes_count <- sum(stringr::str_count(Question_Responses, "Yes"))
+      Warm_count <- sum(stringr::str_count(Question_Responses, "Warm-Water"))
+      Total_count <- sum(Yes_count,Warm_count)
+      
+      if (Total_count > 0) {
+        output$output_NBC_auto <- renderText({
+          paste("Based on responses, natural background conditions are unlikely to cause the SWQS exceedance(s).")
+        })#renderText ~ END
+      } else {
+        output$output_NBC_auto <- renderText({
+          paste("Based on responses, natural background conditions likely result in the SWQS excursion(s).")
+        })#renderText ~ END
+      }# if/else ~ END
+      
+    })
+    
+    
+    
+    
     observeEvent(input$input_NBC_choice, {
       req(input$input_NBC_choice != "")
       
