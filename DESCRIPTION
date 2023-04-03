@@ -27,7 +27,8 @@ Imports:
   markdown,
   tidyr,
   leaflet,
-  mapview
+  mapview,
+  stringr
 VignetteBuilder: knitr
 URL: https://github.com/Blocktt/IEPAtools
 Depends: 
