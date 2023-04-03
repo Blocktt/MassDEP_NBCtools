@@ -17,7 +17,7 @@ function(){
                ,"layer and work with the Massachusetts Geological Survey or USGS to"
                ,"identify AUs with potentially phosphorus-rich geology."
                ,selectInput(inputId = "input_geoTP_choice"
-                            ,label = "Does a lack of phosphorus source lithology eliminate natural conditions status?"
+                            ,label = "Does a lack of phosphorus source lithology eliminate NBC determination?"
                             ,choices = c("","Yes","No")) # selectInput
              )# sidebarPanel~END
              , mainPanel(

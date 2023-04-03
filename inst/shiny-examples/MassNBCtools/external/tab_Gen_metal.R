@@ -17,7 +17,7 @@ function(){
                ,"layer and work with the Massachusetts Geological Survey or USGS to"
                ,"identify AUs with potentially metal-rich geology."
                ,selectInput(inputId = "input_geoMetal_choice"
-                            ,label = "Does a lack of metals source lithology eliminate natural conditions status?"
+                            ,label = "Does a lack of metal source lithology eliminate NBC determination?"
                             ,choices = c("","Yes","No")) # selectInput
              )# sidebarPanel~END
              , mainPanel(

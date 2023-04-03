@@ -345,11 +345,11 @@ shinyServer(function(input, output, session) {
       
       if (input$input_Nat_Land_choice == "No") {
         output$output_Nat_Land_choice2 <- renderUI({
-          paste("Natural land cover does not eliminate natural conditions status.")
+          paste("Natural land cover is above NBC thresholds; continue NBC evaluation.")
         })#renderUI ~ END
       } else {
         output$output_Nat_Land_choice2 <- renderUI({
-          paste("Insufficient natural land cover eliminates natural conditions status.")
+          paste("Natural land cover is below NBC thresholds; NBC determination excluded from further consideration.")
         })#renderUI ~ END
       }# if/else ~ END
     })#observeEvent ~ END
@@ -361,11 +361,11 @@ shinyServer(function(input, output, session) {
       
       if (input$input_Dam_choice == "No") {
         output$output_Dam_choice2 <- renderUI({
-          paste("Dams do not eliminate natural conditions status.")
+          paste("Dams are not present that likely alter conditions; continue NBC evaluation. ")
         })#renderUI ~ END
       } else {
         output$output_Dam_choice2 <- renderUI({
-          paste("Dams eliminate natural conditions status.")
+          paste("Dams are present that alter conditions; NBC determination excluded from further consideration.")
         })#renderUI ~ END
       }# if/else ~ END
     })#observeEvent ~ END
@@ -377,11 +377,11 @@ shinyServer(function(input, output, session) {
       
       if (input$input_PtSrc_choice == "No") {
         output$output_PtSrc_choice2 <- renderUI({
-          paste("Point source discharges do not eliminate natural conditions status.")
+          paste("Point source discharges are not present; continue NBC evaluation.")
         })#renderUI ~ END
       } else {
         output$output_PtSrc_choice2 <- renderUI({
-          paste("Point source discharges eliminate natural conditions status.")
+          paste("Point source discharges are present that alter conditions; NBC determination excluded from further consideration.")
         })#renderUI ~ END
       }# if/else ~ END
     })#observeEvent ~ END
@@ -393,11 +393,11 @@ shinyServer(function(input, output, session) {
       
       if (input$input_Withdrawal_choice == "No") {
         output$output_Withdrawal_choice2 <- renderUI({
-          paste("Water withdrawals do not eliminate natural conditions status.")
+          paste("Water withdrawals are not present; continue NBC evaluation.")
         })#renderUI ~ END
       } else {
         output$output_Withdrawal_choice2 <- renderUI({
-          paste("Water withdrawals eliminate natural conditions status.")
+          paste("Water withdrawals are present that alter conditions; NBC determination excluded from further consideration.")
         })#renderUI ~ END
       }# if/else ~ END
     })#observeEvent ~ END
@@ -410,13 +410,14 @@ shinyServer(function(input, output, session) {
     observeEvent(input$input_tempcrit_choice, {
       req(input$input_tempcrit_choice != "")
       
-      if (input$input_tempcrit_choice == "Cold-Water") {
+      if (input$input_tempcrit_choice == "Cold-Water" 
+          |input$input_tempcrit_choice == "Existing Cold-Water") {
         output$output_tempcrit_choice2 <- renderUI({
-          paste("The cold-water temperature violations do not eliminate natural conditions status.")
+          paste("The cold-water temperature exceedance may be due to natural conditions; continue NBC evaluation.")
         })#renderUI ~ END
       } else {
         output$output_tempcrit_choice2 <- renderUI({
-          paste("The warm-water temperature violations eliminate natural conditions status.")
+          paste("The warm-water temperature exceedance is not due to natural conditions; NBC determination excluded from further consideration.")
         })#renderUI ~ END
       }# if/else ~ END
       })#observeEvent ~ END
@@ -427,11 +428,11 @@ shinyServer(function(input, output, session) {
       
       if (input$input_tempspike_choice == "No") {
         output$output_tempspike_choice2 <- renderUI({
-          paste("Isolated temperature spike(s) do not eliminate natural conditions status.")
+          paste("Isolated temperature spike(s) are not present; continue NBC evaluation.")
         })#renderUI ~ END
       } else {
         output$output_tempspike_choice2 <- renderUI({
-          paste("Isolated temperature spike(s) eliminate natural conditions status.")
+          paste("Isolated temperature spike(s) are present that indicate altered conditions; NBC determination excluded from further consideration.")
         })#renderUI ~ END
       }# if/else ~ END
     })#observeEvent ~ END
@@ -442,11 +443,11 @@ shinyServer(function(input, output, session) {
       
       if (input$input_imperv_choice == "No") {
         output$output_imperv_choice2 <- renderUI({
-          paste("Impervious land cover does not eliminate natural conditions status.")
+          paste("Impervious land cover likely does not alter conditions; continue NBC evaluation.")
         })#renderUI ~ END
       } else {
         output$output_imperv_choice2 <- renderUI({
-          paste("Impervious land cover eliminates natural conditions status.")
+          paste("Impervious land cover alters conditions; NBC determination excluded from further consideration.")
         })#renderUI ~ END
       }# if/else ~ END
     })#observeEvent ~ END
@@ -460,11 +461,11 @@ shinyServer(function(input, output, session) {
       
       if (input$input_dospike_choice == "No") {
         output$output_dospike_choice2 <- renderUI({
-          paste("Isolated DO spike(s) do not eliminate natural conditions status.")
+          paste("Isolated DO spike(s) are not present; continue NBC evaluation.")
         })#renderUI ~ END
       } else {
         output$output_dospike_choice2 <- renderUI({
-          paste("Isolated DO spike(s) eliminate natural conditions status.")
+          paste("Isolated DO spike(s) are present that indicate altered conditions; NBC determination excluded from further consideration.")
         })#renderUI ~ END
       }# if/else ~ END
     })#observeEvent ~ END
@@ -476,11 +477,11 @@ shinyServer(function(input, output, session) {
       
       if (input$input_dodiurnal_choice == "No") {
         output$output_dodiurnal_choice2 <- renderUI({
-          paste("Diurnal DO concentration shifts do not eliminate natural conditions status.")
+          paste("Diurnal DO concentration shifts are not present; continue NBC evaluation.")
         })#renderUI ~ END
       } else {
         output$output_dodiurnal_choice2 <- renderUI({
-          paste("Diurnal DO concentration shifts eliminate natural conditions status.")
+          paste("Diurnal DO concentration shifts indicate altered conditions; NBC determination excluded from further consideration.")
         })#renderUI ~ END
       }# if/else ~ END
     })#observeEvent ~ END
@@ -492,11 +493,11 @@ shinyServer(function(input, output, session) {
       
       if (input$input_wetland1_choice == "No") {
         output$output_wetland1_choice2 <- renderUI({
-          paste("Wetland land cover does not eliminate natural conditions status.")
+          paste("Wetland land cover is above NBC thresholds; continue NBC evaluation.")
         })#renderUI ~ END
       } else {
         output$output_wetland1_choice2 <- renderUI({
-          paste("Wetland land cover eliminates natural conditions status.")
+          paste("Wetland land cover is below NBC thresholds; NBC determination excluded from further consideration.")
         })#renderUI ~ END
       }# if/else ~ END
     })#observeEvent ~ END
@@ -510,11 +511,11 @@ shinyServer(function(input, output, session) {
       
       if (input$input_geoTP_choice == "No") {
         output$output_geoTP_choice2 <- renderUI({
-          paste("Lithology does not eliminate natural conditions status.")
+          paste("Lithology may be a potential source of TP exceedance; continue NBC evaluation.")
         })#renderUI ~ END
       } else {
         output$output_geoTP_choice2 <- renderUI({
-          paste("Lithology eliminates natural conditions status.")
+          paste("Lithology is not likely a source of TP exceedance; NBC determination excluded from further consideration.")
         })#renderUI ~ END
       }# if/else ~ END
     })#observeEvent ~ END
@@ -528,11 +529,11 @@ shinyServer(function(input, output, session) {
       
       if (input$input_wetland2_choice == "No") {
         output$output_wetland2_choice2 <- renderUI({
-          paste("Wetland land cover does not eliminate natural conditions status.")
+          paste("Wetland land cover is above NBC thresholds; continue NBC evaluation.")
         })#renderUI ~ END
       } else {
         output$output_wetland2_choice2 <- renderUI({
-          paste("Wetland land cover eliminates natural conditions status.")
+          paste("Wetland land cover is below NBC thresholds; NBC determination excluded from further consideration.")
         })#renderUI ~ END
       }# if/else ~ END
     })#observeEvent ~ END
@@ -546,11 +547,11 @@ shinyServer(function(input, output, session) {
       
       if (input$input_geoMetal_choice == "No") {
         output$output_geoMetal_choice2 <- renderUI({
-          paste("Lithology does not eliminate natural conditions status.")
+          paste("Lithology may be a potential source of metal exceedance; continue NBC evaluation.")
         })#renderUI ~ END
       } else {
         output$output_geoMetal_choice2 <- renderUI({
-          paste("Lithology eliminates natural conditions status.")
+          paste("Lithology is not likely a source of metal exceedance; NBC determination excluded from further consideration.")
         })#renderUI ~ END
       }# if/else ~ END
     })#observeEvent ~ END
@@ -561,11 +562,11 @@ shinyServer(function(input, output, session) {
       
       if (input$input_NBC_choice == "No") {
         output$output_NBC_choice <- renderText({
-          paste("Natural background conditions are unlikely the cause of the water quality impairment.")
+          paste("Natural background conditions are unlikely to cause the SWQS exceedance(s).")
         })#renderText ~ END
       } else {
         output$output_NBC_choice <- renderText({
-          paste("Natural background conditions are likely the cause of the water quality impairment.")
+          paste("Natural background conditions likely result in the SWQS excursion(s).")
         })#renderText ~ END
       }# if/else ~ END
     })#observeEvent ~ END

@@ -1,16 +1,16 @@
 # pH panel
 
 function() {
-  tabPanel("tabpan_pH"
+  tabPanelBody("tabpan_pH"
            , sidebarLayout(
              sidebarPanel(
-               width = 3
+               width = 4
                ,h2("pH Evaluation")
                ,p(strong("Chosen AU:"), textOutput("output_AU_choice5", inline = T)
                   , style = "font-size:20px;")
                # Wetland land cover
                ,selectInput(inputId = "input_wetland2_choice"
-                            ,label = "Does insufficient wetland land cover eliminate natural conditions status (<7%)?"
+                            ,label = "Is wetland land cover below NBC thresholds (7%)? "
                             ,choices = c("","Yes","No")) # selectInput
                , htmlOutput("output_wetland2")
              ) # sidebarPanel
@@ -19,5 +19,5 @@ function() {
                ,img(src = "pH_Criteria.png", width = 800)
              ) # mainPanel
            ) # sidebarLayout
-  )##tabPanel ~ END
+  )##tabPanelBody ~ END
 }##FUNCTION ~ END

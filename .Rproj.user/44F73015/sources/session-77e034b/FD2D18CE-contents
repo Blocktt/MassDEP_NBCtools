@@ -14,7 +14,7 @@ function() {
                         , "via the WPP internal data warehouse holdings (by OWMID)"
                         , "and via our external data holdings (see Bob Smith)."))
                ,selectInput(inputId = "input_dospike_choice"
-                            ,label = "Do isolated DO spike(s) eliminate natural conditions status?"
+                            ,label = "Is the DO exceedance the result of isolated spike(s)?"
                             ,choices = c("","Yes","No")) # selectInput
                
                
@@ -26,7 +26,7 @@ function() {
                
                # Wetland land cover
                ,selectInput(inputId = "input_wetland1_choice"
-                            ,label = "Does insufficient wetland land cover eliminate natural conditions status (<7%)?"
+                            ,label = "Is wetland land cover below NBC thresholds (7%)?"
                             ,choices = c("","Yes","No")) # selectInput
                , htmlOutput("output_wetland1")
                

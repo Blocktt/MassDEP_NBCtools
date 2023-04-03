@@ -15,25 +15,25 @@ function() {
                                , choices = NULL)
                # Q: Land cover
                ,selectInput(inputId = "input_Nat_Land_choice"
-                            ,label = "Does insufficient natural land cover eliminate natural conditions status?"
+                            ,label = "Is natural land cover below NBC thresholds?"
                             ,choices = c("","Yes","No")) # selectInput
                , htmlOutput("output_LC_Results1")
                , br()
                # Q: Dams
                ,selectInput(inputId = "input_Dam_choice"
-                            ,label = "Do dams eliminate natural conditions status?"
+                            ,label = "Are dams present that likely alter NBC?"
                             ,choices = c("","Yes","No")) # selectInput
                , htmlOutput("output_dam_count1")
                , br()
                # Q: Point sources
                ,selectInput(inputId = "input_PtSrc_choice"
-                            ,label = "Do point source discharges eliminate natural conditions status?"
+                            ,label = "Are point source discharges present that likely alter NBC?"
                             ,choices = c("","Yes","No")) # selectInput
                , htmlOutput("output_ptsrc_counts1")
                , br()
                # Q: Water Withdrawal
                ,selectInput(inputId = "input_Withdrawal_choice"
-                            ,label = "Do water withdrawals eliminate natural conditions status?"
+                            ,label = "•	Are water withdrawals present that likely alter NBC?"
                             ,choices = c("","Yes","No")) # selectInput
                , htmlOutput("output_pctZone2_1")
                , br()

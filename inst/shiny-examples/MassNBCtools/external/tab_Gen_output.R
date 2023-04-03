@@ -15,61 +15,61 @@ function() {
                , p(strong("AU Area (Sq Mi):"), textOutput("output_Area_SQ_MI", inline = T)
                    , style = "font-size:20px;")
                # Land evaluation
-               , p(strong("Natural land cover:"), textOutput("output_Nat_Land_choice1", inline = T)
+               , p(strong("Natural land cover answer:"), textOutput("output_Nat_Land_choice1", inline = T)
                    , style = "font-size:20px;")
                , htmlOutput("output_Nat_Land_choice2")
                , htmlOutput("output_LC_Results2")
                # , br()
-               , p(strong("Dam influence:"), textOutput("output_Dam_choice1", inline = T)
+               , p(strong("Dam influence answer:"), textOutput("output_Dam_choice1", inline = T)
                    , style = "font-size:20px;")
                , htmlOutput("output_Dam_choice2")
                , htmlOutput("output_dam_count2")
                # , br()
-               , p(strong("Point source influence:"), textOutput("output_PtSrc_choice1", inline = T)
+               , p(strong("Point source influence answer:"), textOutput("output_PtSrc_choice1", inline = T)
                    , style = "font-size:20px;")
                , htmlOutput("output_PtSrc_choice2")
                , htmlOutput("output_ptsrc_counts2")
                # , br()
-               , p(strong("Water withdrawal influence:"), textOutput("output_Withdrawal_choice1", inline = T)
+               , p(strong("Water withdrawal influence answer:"), textOutput("output_Withdrawal_choice1", inline = T)
                    , style = "font-size:20px;")
                , htmlOutput("output_Withdrawal_choice2")
                , htmlOutput("output_pctZone2_2")
                # , br()
                # Temperature
                , p(strong("Temperature influences:"), style = "font-size:20px;")
-               , p(strong("Temperature critieria violation:"), textOutput("output_tempcrit_choice1", inline = T)
+               , p(strong("Temperature critieria violation answer:"), textOutput("output_tempcrit_choice1", inline = T)
                    , style = "font-size:15px;")
                , htmlOutput("output_tempcrit_choice2")
-               , p(strong("Temperature isolated spikes:"), textOutput("output_tempspike_choice1", inline = T)
+               , p(strong("Temperature isolated spikes answer:"), textOutput("output_tempspike_choice1", inline = T)
                    , style = "font-size:15px;")
                , htmlOutput("output_tempspike_choice2")
-               , p(strong("Impervious land cover influence:"), textOutput("output_imperv_choice1", inline = T)
+               , p(strong("Impervious land cover influence answer:"), textOutput("output_imperv_choice1", inline = T)
                    , style = "font-size:15px;")
                , htmlOutput("output_imperv_choice2")
                
                # DO
                , p(strong("DO influences:"), style = "font-size:20px;")
-               , p(strong("DO isolated spikes:"), textOutput("output_dospike_choice1", inline = T)
+               , p(strong("DO isolated spikes answer:"), textOutput("output_dospike_choice1", inline = T)
                    , style = "font-size:15px;")
                , htmlOutput("output_dospike_choice2")
-               , p(strong("DO diurnal shift:"), textOutput("output_dodiurnal_choice1", inline = T)
+               , p(strong("DO diurnal shift answer:"), textOutput("output_dodiurnal_choice1", inline = T)
                    , style = "font-size:15px;")
                , htmlOutput("output_dodiurnal_choice2")
-               , p(strong("DO Wetland LC influence:"), textOutput("output_wetland1_choice1", inline = T)
+               , p(strong("DO Wetland LC influence answer:"), textOutput("output_wetland1_choice1", inline = T)
                    , style = "font-size:15px;")
                , htmlOutput("output_wetland1_choice2")
                # TP
-               , p(strong("TP lithology influence:"), textOutput("output_geoTP_choice1", inline = T)
+               , p(strong("TP lithology influence answer:"), textOutput("output_geoTP_choice1", inline = T)
                    , style = "font-size:20px;")
                , htmlOutput("output_geoTP_choice2")
                
                # pH
-               , p(strong("pH wetland LC influence:"), textOutput("output_wetland2_choice1", inline = T)
+               , p(strong("pH wetland LC influence answer:"), textOutput("output_wetland2_choice1", inline = T)
                    , style = "font-size:20px;")
                , htmlOutput("output_wetland2_choice2")
                
                # Metals
-               , p(strong("Metals lithology influence:"), textOutput("output_geoMetal_choice1", inline = T)
+               , p(strong("Metals lithology influence answer:"), textOutput("output_geoMetal_choice1", inline = T)
                    , style = "font-size:20px;")
                , htmlOutput("output_geoMetal_choice2")
                
@@ -80,7 +80,7 @@ function() {
                # NBC Determination
                , p(strong("NBC determination:"), style = "font-size:20px;")
                ,selectInput(inputId = "input_NBC_choice"
-                            ,label = "Is the water quality impairment due to NBC?"
+                            ,label = "Is the water quality condition a result of NBC?"
                             ,choices = c("","Yes","No")) # selectInput
                , p(strong(textOutput("output_NBC_choice", inline = T))
                    , style = "font-size:20px;")
