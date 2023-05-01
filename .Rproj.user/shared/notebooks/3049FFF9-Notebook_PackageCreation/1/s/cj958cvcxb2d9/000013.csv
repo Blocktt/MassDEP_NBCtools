@@ -1,0 +1,7 @@
+"0","# NEWS
+# Render then Copy NEWS so picked up in help
+rmarkdown::render(""NEWS.Rmd"", ""all"")
+"
+"2","Warning: cannot open file 'NEWS.Rmd': No such file or directory"
+"2","Error in readLines(con, warn = FALSE) : cannot open the connection
+"

@@ -13,55 +13,21 @@ knitr::opts_chunk$set(results='asis', echo=FALSE, warning=FALSE, message = FALSE
 
 ## Background
 
-The Massachusetts Surface Water Quality Standards (SWQS)
-(314 Code of Massachusetts Regulations (CMR) 4.00) are the foundation of the
-state\'s water quality management program. The regulation defines the most
-sensitive uses for surface waters, prescribes minimum water quality criteria to
-sustain those uses, and protects existing uses and high-quality waters. The
-Massachusetts Department of Environmental Protection (MassDEP) establishes criteria in the SWQS to protect the most sensitive uses; however, the SWQS state that waters exhibiting excursions from criteria solely due to natural background
-conditions are not interpreted as violations of water quality standards (per
-314 CMR 4.03(5)). In addition, at 314 CMR 4.05(5)(e)1.: Generally Applicable
-Criteria, the SWQS state that \"[f]or each pollutant identified in 314 CMR
-4.06(6)(d): Table 29: Generally Applicable Criteria, the concentrations
-identified or calculated for that pollutant in or pursuant to Table 29 shall be
-generally applicable criteria for all categories of surface waters, as
-specified therein; unless the Department determines that naturally occurring
-background concentrations are higher. Where the Department determines that
-naturally occurring background concentrations are higher, those concentrations
-shall be the allowable receiving water concentrations.\" The SWQS define
-background conditions as \"water quality which exists or would exist in the
-absence of pollutants requiring permits and other controllable cultural factors
-that are subject to regulation under [Massachusetts General Laws] M.G.L.
-c. 21, §§ 26 through 53\" (314 CMR 4.02). Natural background condition
-determinations are an essential part of evaluating whether surface waters are
-meeting standards. These determinations require review of many sources of
-information; therefore, MassDEP developed a tool to increase the efficiency and
-consistency of these determinations.
+The Massachusetts Surface Water Quality Standards (SWQS) (314 Code of Massachusetts Regulations (CMR) 4.00) are the foundation of the state's water quality management program. The regulation defines the most sensitive uses for surface waters, prescribes minimum water quality criteria to sustain those uses, and protects existing uses and high-quality waters. The Massachusetts Department of Environmental Protection (MassDEP) establishes criteria in the SWQS to protect the most sensitive uses; however, the SWQS state that waters exhibiting excursions from criteria solely due to natural background conditions are not interpreted as violations of water quality standards (per 314 CMR 4.03(5)). In addition, at 314 CMR 4.05(5)(e)1.: Generally Applicable Criteria, the SWQS state that "[f]or each pollutant identified in 314 CMR 4.06(6)(d): Table 29: Generally Applicable Criteria, the concentrations identified or calculated for that pollutant in or pursuant to Table 29 shall be generally applicable criteria for all categories of surface waters, as specified therein; unless the Department determines that naturally occurring background concentrations are higher. Where the Department determines that naturally occurring background concentrations are higher, those concentrations shall be the allowable receiving water concentrations." The SWQS define background conditions as "water quality which exists or would exist in the absence of pollutants requiring permits and other controllable cultural factors that are subject to regulation under [Massachusetts General Laws] M.G.L. c. 21, §§ 26 through 53" (314 CMR 4.02). Natural background condition determinations are an essential part of evaluating whether surface waters are meeting standards. These determinations require review of many sources of information; therefore, MassDEP developed a tool to increase the efficiency and consistency of these determinations.
 
 ## Natural Background Conditions (NBC) Screening Tool
 
-This RShiny NBC Screening Tool application (app) (*MassNBCtools*) is
-intended to help assessment staff evaluate whether natural background
-conditions (NBC) likely contribute to excursions of SWQS criteria. The
-app walks the user through a series of questions concerning anthropogenic
-stressors since certain levels of stress preemptively disqualifies an Assessment
-Unit (AU) from NBC consideration (when anthropogenic stressors dominate
-the landscape exceedances of criteria cannot be attributed solely due to NBC).
-Detailed instructions on how to use the app are described below.
+This RShiny NBC Screening Tool application (app) (*MassNBCtools*) is intended to help assessment staff evaluate whether natural background conditions (NBC) likely contribute to excursions of SWQS criteria. The app walks the user through a series of questions concerning anthropogenic stressors since certain levels of stress preemptively disqualifies an Assessment Unit (AU) from NBC consideration (when anthropogenic stressors dominate the landscape exceedances of criteria cannot be attributed solely due to NBC). Detailed instructions on how to use the app are described below.
 
 ## Instructions
 
-The MassNBCtools app walks the user through a series of
-input tabs wherein the user reviews AU-specific data and responds to a standardized series of questions. To begin, click on the *Natural Background
-Evaluation* tab, after which a drop-down menu will appear. Below are
-detailed instructions for each tab. Note, that all outputs from all input tabs
-are stored in the *Output: Results and Download* tab.
+The MassNBCtools app walks the user through a series of input tabs wherein the user reviews AU-specific data and responds to a standardized series of questions. To begin, click on the *Natural Background Evaluation* tab, after which a drop-down menu will appear. Below are detailed instructions for each tab. Note, that all outputs from all input tabs are stored in the *Output: Results and Download* tab.
 
 #### *Input: Land Evaluation*
 
 The *Input: Land Evaluation* tab is where the user should begin their assessment of an AU for NBC. This tab contains questions that prompt the user to evaluate a specific AU and determine whether anthropogenic land cover/land use may result in SWQS exceedance(s) or excursion(s). Extensive anthropogenic stressors preemptively disqualify an AU from NBC consideration.
 
-It may take 10-15 seconds for the table and map to appear (Figure 1). Analysts input their name in the *Analyst Name* box and then type the number of the AU into the \"Assessment Unit (AU)\" box (do not search for the AU in the drop-down menu as it is limited). After entering an AU, the table and map will automatically filter to that AU. The table contains basic information about the AU including any applicable qualifiers from the SWQS and land use percentages. Note, you have to scroll to see all available columns. To scroll, click on the table and use the right arrow on the keyboard. Use the map, table, and help text to answer the subsequent questions. Type any additional notes or observations in the *General Notes* box. Use the blue buttons to download the map or the entire webpage.
+It may take 10-15 seconds for the table and map to appear (Figure 1). Analysts input their name in the *Analyst Name* box and then type the number of the AU into the "Assessment Unit (AU)" box (do not search for the AU in the drop-down menu as it is limited). After entering an AU, the table and map will automatically filter to that AU. The table contains basic information about the AU including any applicable qualifiers from the SWQS and land use percentages. Note, you have to scroll to see all available columns. To scroll, click on the table and use the right arrow on the keyboard. Use the map, table, and help text to answer the subsequent questions. Type any additional notes or observations in the *General Notes* box. Use the blue buttons to download the map or the entire webpage.
 
 Beyond the *Input: Land Evaluation* tab are additional parameter-specific tabs. Note, parameter-specific tabs can be skipped if an AU is already excluded from NBC consideration from the land evaluation.
 
@@ -69,15 +35,13 @@ Beyond the *Input: Land Evaluation* tab are additional parameter-specific tabs
 
 #### ***Input: Temperature***
 
-The *Input: Temperature* tab is where the user evaluates water temperature exceedances (Figure 2). The analyst must first type an AU in the *Input: Land
-Evaluation* tab, which populates the *Chosen AU* and *AU Temperature Class Qualifier* fields. Helper information is also provided for the impervious land cover question. Answer subsequent questions for the continuous and/or discrete water temperature data.
+The *Input: Temperature* tab is where the user evaluates water temperature exceedances (Figure 2). The analyst must first type an AU in the *Input: Land Evaluation* tab, which populates the *Chosen AU* and *AU Temperature Class Qualifier* fields. Helper information is also provided for the impervious land cover question. Answer subsequent questions for the continuous and/or discrete water temperature data.
 
 ![*Figure 2. Screenshot of Input: Temperature tab.*](Images/Input_Temp.png){width="6in"}
 
 #### ***Input: Dissolved Oxygen***
 
-The *Input: Dissolved Oxygen* tab is where the user evaluates dissolved oxygen (DO) exceedances (Figure 3). An AU must first be chosen in the *Input: Land
-Evaluation* tab, which populates the *Chosen AU* field. Helper information is also provided for the wetland land cover question. Answer subsequent questions for the continuous and/or discrete DO data.
+The *Input: Dissolved Oxygen* tab is where the user evaluates dissolved oxygen (DO) exceedances (Figure 3). An AU must first be chosen in the *Input: Land Evaluation* tab, which populates the *Chosen AU* field. Helper information is also provided for the wetland land cover question. Answer subsequent questions for the continuous and/or discrete DO data.
 
 ![*Figure 3. Screenshot of Input: Dissolved Oxygen tab.*](Images/Input_DO.png){width="6in"}
 
@@ -89,8 +53,7 @@ The *Input: Total Phosphorus* tab is where the user evaluates total phosphorus
 
 #### ***Input: pH***
 
-The *Input: pH* tab is where the user evaluates pH exceedances (Figure 5). An AU
-must first be chosen in the *Input: Land Evaluation* tab, which populates the *Chosen AU* field. Published research indicates that pH is lower in wetland-dominated systems than those systems without wetlands. Analysts must answer the subsequent question using helper information (the MassDEP SWQS pH criteria are included for quick reference).
+The *Input: pH* tab is where the user evaluates pH exceedances (Figure 5). An AU must first be chosen in the *Input: Land Evaluation* tab, which populates the *Chosen AU* field. Published research indicates that pH is lower in wetland-dominated systems than those systems without wetlands. Analysts must answer the subsequent question using helper information (the MassDEP SWQS pH criteria are included for quick reference).
 
 ![*Figure 5. Screenshot of Input: pH tab.*](Images/Input_pH.png){width="10in"}
 

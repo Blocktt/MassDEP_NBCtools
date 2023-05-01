@@ -17,7 +17,7 @@ Use the code below to create the package.  Assumes you are in the development pa
 ```{r, eval=FALSE}
 # NEWS
 # Render then Copy NEWS so picked up in help
-rmarkdown::render("NEWS.rmd", "all")
+rmarkdown::render("NEWS.Rmd", "all")
 file.copy("NEWS.md", "NEWS", overwrite = TRUE)
 file.remove("NEWS.html")
 #file.remove("NEWS.md")

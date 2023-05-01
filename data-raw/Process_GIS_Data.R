@@ -8,7 +8,7 @@
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # Prep ####
-wd <- getwd() # assume is package directory
+(wd <- getwd()) # assume is package directory
 library(sf)
 library(dplyr)
 library(rmapshaper)
@@ -41,7 +41,7 @@ PWS_SW_shp <- sf::st_read(dsn = fn_shp, layer = "PWS_SW_PT") %>%
 object.size(PWS_SW_shp)
 
 ## basins ####
-basins_shp <- sf::st_read(dsn = fn_shp, layer = "305BasinMerge2022_20mSimp") %>%
+basins_shp <- sf::st_read(dsn = fn_shp, layer = "305BasinMergeMarch2023_20mSimp") %>%
   sf::st_transform('+proj=longlat +datum=WGS84')
 
 ## centroids ####
