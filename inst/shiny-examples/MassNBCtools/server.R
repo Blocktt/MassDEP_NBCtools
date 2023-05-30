@@ -44,6 +44,7 @@ shinyServer(function(input, output, session) {
              , nNPDES, nPWS_SW, nSEMS, nTRIs, pctZone2)
   })#reactive ~ END
   
+  # trim data table once AU is selected
   observeEvent(input$input_AU_choice, {
     if(input$input_AU_choice == ""){
       output$input_DT <- renderDT({
@@ -88,7 +89,7 @@ shinyServer(function(input, output, session) {
     PctNat_CompBuf <- PERCNAT_ST + PERCWET_ST
     PctNat_ProxBuf <- PERCNAT_SP + PERCWET_SP
     
-    # # per Appendix A Table A1 (2022 CALM)
+    ## per Appendix A Table A1 (2022 CALM)
     if (Area_SQ_MI >= 25 & Min_PctNat_CompWs_ProxWs > 80
         & PctNat_ProxBuf >90) {
       NatResult <- paste("Natural land cover exceeds NBC thresholds. "
@@ -117,14 +118,14 @@ shinyServer(function(input, output, session) {
     
     ## outputs ####
     if (Area_SQ_MI >= 25) {
-      output$output_LC_Results1 <- renderUI({
+      output$output_LC_Results1 <- renderUI({ #Output: tab_Gen_input.R
         HTML(paste(paste0("% Natural (Minimum of Watershed Scales): ", Min_PctNat_CompWs_ProxWs)
                    , paste0("% Natural (Proximate Stream Buffer): ",PctNat_ProxBuf)
                    , paste0("% Impervious: ", PercImp)
                    # , paste0("Result: ", NatResult)
                    , sep="<br/>"))
       })#renderUI ~ END
-      output$output_LC_Results2 <- renderUI({
+      output$output_LC_Results2 <- renderUI({ #Output: tab_Gen_output.R
         HTML(paste(paste0("% Natural (Minimum of Watershed Scales): ", Min_PctNat_CompWs_ProxWs)
                    , paste0("% Natural (Proximate Stream Buffer): ",PctNat_ProxBuf)
                    , paste0("% Impervious: ", PercImp)
@@ -132,14 +133,14 @@ shinyServer(function(input, output, session) {
                    , sep="<br/>"))
       })#renderUI ~ END
     } else {
-      output$output_LC_Results1 <- renderUI({
+      output$output_LC_Results1 <- renderUI({ #Output: tab_Gen_input.R
         HTML(paste(paste0("% Natural (Minimum of Watershed Scales): ", Min_PctNat_CompWs_ProxWs)
                    , paste0("% Natural (Complete Stream Buffer): ",PctNat_CompBuf)
                    , paste0("% Impervious: ", PercImp)
                    , paste0("Result: ", NatResult)
                    , sep="<br/>"))
       })#renderUI ~ END
-      output$output_LC_Results2 <- renderUI({
+      output$output_LC_Results2 <- renderUI({ #Output: tab_Gen_output.R
         HTML(paste(paste0("% Natural (Minimum of Watershed Scales): ", Min_PctNat_CompWs_ProxWs)
                    , paste0("% Natural (Complete Stream Buffer): ",PctNat_CompBuf)
                    , paste0("% Impervious: ", PercImp)
@@ -149,14 +150,14 @@ shinyServer(function(input, output, session) {
     }# if/else ~ END
     
     if (PercImp >= 4) {
-      output$output_Imperv1 <- renderUI({
+      output$output_Imperv1 <- renderUI({ #Output: tab_Gen_temp.R
         HTML(paste(paste0("% Impervious: ", PercImp)
                    , paste0("Result: Impervious land cover exceeds NBC thresholds. "
                             , "Recommended answer: Yes")
                    , sep="<br/>"))
       })#renderUI ~ END
     } else {
-      output$output_Imperv1 <- renderUI({
+      output$output_Imperv1 <- renderUI({ #Output: tab_Gen_temp.R
         HTML(paste(paste0("% Impervious: ", PercImp)
                    , paste0("Result: Impervious land cover does not exceed NBC thresholds. "
                     , "Recommended answer: No")
@@ -165,26 +166,26 @@ shinyServer(function(input, output, session) {
     }# if/else ~ END
     
     if (PERCWET_PR <= 7) {
-      output$output_wetland1 <- renderUI({
+      output$output_wetland1 <- renderUI({ #Output: tab_Gen_DO.R
         HTML(paste(paste0("% Wetlands (Proximal Watershed): ", PERCWET_PR)
                    , paste0("Result: Wetland land cover does not meet or exceed NBC thresholds. "
                             , "Recommended answer: Yes")
                    , sep="<br/>"))
       })#renderUI ~ END
-      output$output_wetland2 <- renderUI({
+      output$output_wetland2 <- renderUI({ #Output: tab_Gen_pH.R
         HTML(paste(paste0("% Wetlands (Proximal Watershed): ", PERCWET_PR)
                    , paste0("Result: Wetland land cover does not meet or exceed NBC thresholds. "
                             , "Recommended answer: Yes")
                    , sep="<br/>"))
       })#renderUI ~ END
     } else {
-      output$output_wetland1 <- renderUI({
+      output$output_wetland1 <- renderUI({ #Output: tab_Gen_DO.R
         HTML(paste(paste0("% Wetlands (Proximal Watershed): ", PERCWET_PR)
                    , paste0("Result: Wetland land cover meets or exceeds NBC thresholds. "
                             , "Recommended answer: No")
                    , sep="<br/>"))
       })#renderUI ~ END
-      output$output_wetland2 <- renderUI({
+      output$output_wetland2 <- renderUI({ #Output: tab_Gen_pH.R
         HTML(paste(paste0("% Wetlands (Proximal Watershed): ", PERCWET_PR)
                    , paste0("Result: Wetland land cover meets or exceeds NBC thresholds. "
                             , "Recommended answer: No")
@@ -192,38 +193,39 @@ shinyServer(function(input, output, session) {
       })#renderUI ~ END
     }# if/else ~ END
     
-    output$output_dam_count1 <- renderUI({
+    output$output_dam_count1 <- renderUI({ #Output: tab_Gen_input.R
       HTML(paste0("Number of Dams in AU: ", nDams))
-      })#renderUI ~ END
-    output$output_dam_count2 <- renderUI({
+      })#renderUI ~ END 
+    output$output_dam_count2 <- renderUI({ #Output: tab_Gen_output.R
       HTML(paste0("Number of Dams in AU: ", nDams))
     })#renderUI ~ END
     
-    output$output_ptsrc_counts1 <- renderUI({
+    output$output_ptsrc_counts1 <- renderUI({ #Output: tab_Gen_input.R
       HTML(paste(paste0("Number of NPDES in AU: ", nNPDES)
                  , paste0("Number of Superfunds in AU: ",nSEMS)
                  , paste0("Number of TRIs in AU: ", nTRIs)
                  , sep="<br/>"))
     })#renderUI ~ END
-    output$output_ptsrc_counts2 <- renderUI({
+    output$output_ptsrc_counts2 <- renderUI({ #Output: tab_Gen_output.R
       HTML(paste(paste0("Number of NPDES in AU: ", nNPDES)
                  , paste0("Number of Superfunds in AU: ",nSEMS)
                  , paste0("Number of TRIs in AU: ", nTRIs)
                  , sep="<br/>"))
     })#renderUI ~ END
     
-    output$output_pctZone2_1 <- renderUI({
+    output$output_pctZone2_1 <- renderUI({ #Output: tab_Gen_input.R
       HTML(paste0("% Zone II WPA in AU: ", pctZone2))
     })#renderUI ~ END
-    output$output_pctZone2_2 <- renderUI({
+    output$output_pctZone2_2 <- renderUI({ #Output: tab_Gen_output.R
       HTML(paste0("% Zone II WPA in AU: ", pctZone2))
     })#renderUI ~ END
     
-    output$output_TempClass <- renderUI({
+    output$output_TempClass <- renderUI({ #Output: tab_Gen_temp.R
       HTML(paste0(AU_TempClassQual))
       })#renderUI ~ END
     
-    output$output_Area_SQ_MI <- renderText({round(Area_SQ_MI,3)})
+    #Output: tab_Gen_output.R
+    output$output_Area_SQ_MI <- renderText({round(Area_SQ_MI,3)}) 
     
   })#observeEvent ~ END
   
@@ -338,7 +340,8 @@ shinyServer(function(input, output, session) {
 
     # Output info ####
     ## General Outputs ####
-    output$output_analyst <- renderText({input$input_analyst})
+    # All outputs below directed to tab_Gen_output.R
+    output$output_analyst <- renderText({input$input_analyst}) 
     output$output_AU_choice1 <- renderText({input$input_AU_choice})
     ### Nat Land ####
     output$output_Nat_Land_choice1 <- renderText({input$input_Nat_Land_choice})
@@ -407,175 +410,158 @@ shinyServer(function(input, output, session) {
     output$output_notes <- renderText({input$input_notes})
     
     ## Temp Outputs ####
-    output$output_AU_choice2 <- renderText({input$input_AU_choice})
-    output$output_tempcrit_choice1 <- renderText({input$input_tempcrit_choice})
+    output$output_AU_choice2 <- renderText({input$input_AU_choice}) # Output: tab_Gen_temp.R
+    output$output_tempcrit_choice1 <- renderText({input$input_tempcrit_choice}) # Output: tab_Gen_output.R
     observeEvent(input$input_tempcrit_choice, {
       req(input$input_tempcrit_choice != "")
       
       if (input$input_tempcrit_choice == "Cold-Water" 
           |input$input_tempcrit_choice == "Existing Cold-Water") {
-        output$output_tempcrit_choice2 <- renderUI({
+        output$output_tempcrit_choice2 <- renderUI({ # Output: tab_Gen_output.R
           paste("The cold-water temperature exceedance may be due to natural conditions; continue NBC evaluation.")
         })#renderUI ~ END
       } else {
-        output$output_tempcrit_choice2 <- renderUI({
+        output$output_tempcrit_choice2 <- renderUI({ # Output: tab_Gen_output.R
           paste("The warm-water temperature exceedance is not due to natural conditions; NBC determination excluded from further consideration.")
         })#renderUI ~ END
       }# if/else ~ END
       })#observeEvent ~ END
     
-    output$output_tempspike_choice1 <- renderText({input$input_tempspike_choice})
-    observeEvent(input$input_tempspike_choice, {
+    output$output_tempspike_choice1 <- renderText({input$input_tempspike_choice}) # Output: tab_Gen_output.R
+    observeEvent(input$input_tempspike_choice, { 
       req(input$input_tempspike_choice != "")
       
       if (input$input_tempspike_choice == "No") {
-        output$output_tempspike_choice2 <- renderUI({
+        output$output_tempspike_choice2 <- renderUI({ # Output: tab_Gen_output.R
           paste("Isolated temperature spike(s) are not present; continue NBC evaluation.")
         })#renderUI ~ END
       } else {
-        output$output_tempspike_choice2 <- renderUI({
+        output$output_tempspike_choice2 <- renderUI({ # Output: tab_Gen_output.R
           paste("Isolated temperature spike(s) are present that indicate altered conditions; NBC determination excluded from further consideration.")
         })#renderUI ~ END
       }# if/else ~ END
     })#observeEvent ~ END
     
-    output$output_imperv_choice1 <- renderText({input$input_imperv_choice})
+    output$output_imperv_choice1 <- renderText({input$input_imperv_choice}) # Output: tab_Gen_output.R
     observeEvent(input$input_imperv_choice, {
       req(input$input_imperv_choice != "")
       
       if (input$input_imperv_choice == "No") {
-        output$output_imperv_choice2 <- renderUI({
+        output$output_imperv_choice2 <- renderUI({ # Output: tab_Gen_output.R
           paste("Impervious land cover likely does not alter conditions; continue NBC evaluation.")
         })#renderUI ~ END
       } else {
-        output$output_imperv_choice2 <- renderUI({
+        output$output_imperv_choice2 <- renderUI({ # Output: tab_Gen_output.R
           paste("Impervious land cover alters conditions; NBC determination excluded from further consideration.")
         })#renderUI ~ END
       }# if/else ~ END
     })#observeEvent ~ END
     
     ## DO Outputs ####
-    output$output_AU_choice3 <- renderText({input$input_AU_choice})
-    output$output_dospike_choice1 <- renderText({input$input_dospike_choice})
+    output$output_AU_choice3 <- renderText({input$input_AU_choice}) # Output: tab_Gen_DO.R
+    output$output_dospike_choice1 <- renderText({input$input_dospike_choice}) # Output: tab_Gen_output.R
     
     observeEvent(input$input_dospike_choice, {
       req(input$input_dospike_choice != "")
       
       if (input$input_dospike_choice == "No") {
-        output$output_dospike_choice2 <- renderUI({
+        output$output_dospike_choice2 <- renderUI({ # Output: tab_Gen_output.R
           paste("Isolated DO spike(s) are not present; continue NBC evaluation.")
         })#renderUI ~ END
       } else {
-        output$output_dospike_choice2 <- renderUI({
+        output$output_dospike_choice2 <- renderUI({ # Output: tab_Gen_output.R
           paste("Isolated DO spike(s) are present that indicate altered conditions; NBC determination excluded from further consideration.")
         })#renderUI ~ END
       }# if/else ~ END
     })#observeEvent ~ END
     
-    output$output_dodiurnal_choice1 <- renderText({input$input_dodiurnal_choice})
+    output$output_dodiurnal_choice1 <- renderText({input$input_dodiurnal_choice}) # Output: tab_Gen_output.R
     
     observeEvent(input$input_dodiurnal_choice, {
       req(input$input_dodiurnal_choice != "")
       
       if (input$input_dodiurnal_choice == "No") {
-        output$output_dodiurnal_choice2 <- renderUI({
+        output$output_dodiurnal_choice2 <- renderUI({ # Output: tab_Gen_output.R
           paste("Diurnal DO concentration shifts are not present; continue NBC evaluation.")
         })#renderUI ~ END
       } else {
-        output$output_dodiurnal_choice2 <- renderUI({
+        output$output_dodiurnal_choice2 <- renderUI({ # Output: tab_Gen_output.R
           paste("Diurnal DO concentration shifts indicate altered conditions; NBC determination excluded from further consideration.")
         })#renderUI ~ END
       }# if/else ~ END
     })#observeEvent ~ END
     
-    output$output_wetland1_choice1 <- renderText({input$input_wetland1_choice})
+    output$output_wetland1_choice1 <- renderText({input$input_wetland1_choice}) # Output: tab_Gen_output.R
     
     observeEvent(input$input_wetland1_choice, {
       req(input$input_wetland1_choice != "")
       
       if (input$input_wetland1_choice == "No") {
-        output$output_wetland1_choice2 <- renderUI({
+        output$output_wetland1_choice2 <- renderUI({ # Output: tab_Gen_output.R
           paste("Wetland land cover is above NBC thresholds; continue NBC evaluation.")
         })#renderUI ~ END
-      } else {
-        output$output_wetland1_choice2 <- renderUI({
+      } else { 
+        output$output_wetland1_choice2 <- renderUI({ # Output: tab_Gen_output.R
           paste("Wetland land cover is below NBC thresholds; NBC determination excluded from further consideration.")
         })#renderUI ~ END
       }# if/else ~ END
     })#observeEvent ~ END
     
     ## TP Outputs ####
-    output$output_AU_choice4 <- renderText({input$input_AU_choice})
-    output$output_geoTP_choice1 <- renderText({input$input_geoTP_choice})
+    output$output_AU_choice4 <- renderText({input$input_AU_choice}) # Output: tab_Gen_TP.R
+    output$output_geoTP_choice1 <- renderText({input$input_geoTP_choice}) # Output: tab_Gen_output.R
     
     observeEvent(input$input_geoTP_choice, {
       req(input$input_geoTP_choice != "")
       
       if (input$input_geoTP_choice == "No") {
-        output$output_geoTP_choice2 <- renderUI({
+        output$output_geoTP_choice2 <- renderUI({ # Output: tab_Gen_output.R
           paste("Lithology may be a potential source of TP exceedance; continue NBC evaluation.")
         })#renderUI ~ END
       } else {
-        output$output_geoTP_choice2 <- renderUI({
+        output$output_geoTP_choice2 <- renderUI({ # Output: tab_Gen_output.R
           paste("Lithology is not likely a source of TP exceedance; NBC determination excluded from further consideration.")
         })#renderUI ~ END
       }# if/else ~ END
     })#observeEvent ~ END
     
     ## pH Outputs ####
-    output$output_AU_choice5 <- renderText({input$input_AU_choice})
-    output$output_wetland2_choice1 <- renderText({input$input_wetland2_choice})
+    output$output_AU_choice5 <- renderText({input$input_AU_choice}) # Output: tab_Gen_pH.R
+    output$output_wetland2_choice1 <- renderText({input$input_wetland2_choice}) # Output: tab_Gen_output.R
     
     observeEvent(input$input_wetland2_choice, {
       req(input$input_wetland2_choice != "")
       
       if (input$input_wetland2_choice == "No") {
-        output$output_wetland2_choice2 <- renderUI({
+        output$output_wetland2_choice2 <- renderUI({ # Output: tab_Gen_output.R
           paste("Wetland land cover is above NBC thresholds; continue NBC evaluation.")
         })#renderUI ~ END
       } else {
-        output$output_wetland2_choice2 <- renderUI({
+        output$output_wetland2_choice2 <- renderUI({ # Output: tab_Gen_output.R
           paste("Wetland land cover is below NBC thresholds; NBC determination excluded from further consideration.")
         })#renderUI ~ END
       }# if/else ~ END
     })#observeEvent ~ END
     
     ## Metals Outputs ####
-    output$output_AU_choice6 <- renderText({input$input_AU_choice})
-    output$output_geoMetal_choice1 <- renderText({input$input_geoMetal_choice})
+    output$output_AU_choice6 <- renderText({input$input_AU_choice}) # Output: tab_Gen_metal.R
+    output$output_geoMetal_choice1 <- renderText({input$input_geoMetal_choice}) # Output: tab_Gen_output.R
     
     observeEvent(input$input_geoMetal_choice, {
       req(input$input_geoMetal_choice != "")
       
       if (input$input_geoMetal_choice == "No") {
-        output$output_geoMetal_choice2 <- renderUI({
+        output$output_geoMetal_choice2 <- renderUI({ # Output: tab_Gen_output.R
           paste("Lithology may be a potential source of metal exceedance; continue NBC evaluation.")
         })#renderUI ~ END
       } else {
-        output$output_geoMetal_choice2 <- renderUI({
+        output$output_geoMetal_choice2 <- renderUI({ # Output: tab_Gen_output.R
           paste("Lithology is not likely a source of metal exceedance; NBC determination excluded from further consideration.")
         })#renderUI ~ END
       }# if/else ~ END
     })#observeEvent ~ END
     
     ## NBC Determination ####
-    
-    # auto generated result
-    # toListen <- reactive({
-    #   list(input$input_Nat_Land_choice
-    #        ,input$input_Dam_choice
-    #        ,input$input_PtSrc_choice
-    #        ,input$input_Withdrawal_choice
-    #        ,input$input_tempcrit_choice
-    #        ,input$input_tempspike_choice
-    #        ,input$input_imperv_choice
-    #        ,input$input_dospike_choice
-    #        ,input$input_dodiurnal_choice
-    #        ,input$input_wetland1_choice
-    #        ,input$input_geoTP_choice
-    #        ,input$input_wetland2_choice
-    #        ,input$input_geoMetal_choice)
-    #   })
     
     observeEvent(ignoreInit = TRUE,c(
       input$input_Nat_Land_choice
