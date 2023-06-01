@@ -21,13 +21,14 @@ shinyServer(function(input, output, session) {
   # modal dialog ####
   myModal <- modalDialog(
     title = "Welcome to the Massachusetts Natural Background Conditions App!"
-    ,HTML("MassNBCtools was developed to assess Massachusetts Assessement Units
-           (AUs) for natural background conditions.<br> This app was developed by
-          Ben Block, Tetra Tech (Ben.Block@tetratech.com), for use by the
+    ,HTML("MassNBCtools was developed to improve the efficiency and consistency 
+          of performing natural background condition determinations for 
+          Massachusetts Assessment Units (AUs). This app was developed by Ben 
+          Block of Tetra Tech (Ben.Block@tetratech.com), for use by the 
           Massachusetts Department of Environmental Protection (MassDEP).<br> 
-          Please contact Anna Mayor (anna.mayor@mass.gov), Laurie Kennedy 
-          (laurie.kennedy@mass.gov) or Richard Chase (richard.f.chase@mass.gov)
-           should any issues or questions arise.<br>")
+          Please contact Laurie Kennedy (laurie.kennedy@mass.gov), Richard Chase 
+          (richard.f.chase@mass.gov), or Bob Smith (robert.smith@mass.gov) with 
+          any questions or comments on the application.<br>")
     ,HTML('<center><img src="MassDEPlogo.png" height="100"></center>')
     ,easyClose = T)
   
