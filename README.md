@@ -17,7 +17,6 @@ releases](https://img.shields.io/github/downloads/Blocktt/MassNBCtools/total)](h
 
 ``` r
 library(devtools)  #install if needed
-Sys.setenv("TAR" = "internal")  # needed for R v3.6.0
 install_github("Blocktt/MassNBCtools", force=TRUE, build_vignettes=TRUE)
 ```
 
@@ -31,7 +30,7 @@ In development.
 
 ## Usage
 
-A Shiny app purpose built for MassDEP.
+A Shiny app purpose-built for MassDEP.
 
 ## Issues
 
