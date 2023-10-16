@@ -100,7 +100,7 @@ shinyServer(function(input, output, session) {
       NatResult <- paste("Natural land cover exceeds NBC thresholds. "
                          , "Recommended answer: No")
     } else {
-      NatResult <- paste("Natural land cover does not exceed NBC thresholds. "
+      NatResult <- paste("Natural land cover does not meet NBC thresholds (i.e., anthropogenic influence is too great). "
                          , "Recommended answer: Yes")
 
     }# if/else ~ END
