@@ -75,20 +75,33 @@ shinyServer(function(input, output, session) {
     Area_SQ_MI <- AU_Data_trimmed$Area_SQ_MI
     PERCNAT <- AU_Data_trimmed$PERCNAT
     PERCWET <- AU_Data_trimmed$PERCWET
+    PERCAG <- AU_Data_trimmed$PERCAG
     PERCNAT_PR <- AU_Data_trimmed$PERCNAT_PR
     PERCWET_PR <- AU_Data_trimmed$PERCWET_PR
+    PERCAG_PR <- AU_Data_trimmed$PERCAG_PR
     PERCNAT_ST <- AU_Data_trimmed$PERCNAT_ST
     PERCWET_ST <- AU_Data_trimmed$PERCWET_ST
+    PERCAG_ST <- AU_Data_trimmed$PERCAG_ST
     PERCNAT_SP <- AU_Data_trimmed$PERCNAT_SP
     PERCWET_SP <- AU_Data_trimmed$PERCWET_SP
+    PERCAG_SP <- AU_Data_trimmed$PERCAG_SP
     PercImp <- AU_Data_trimmed$PercImp
     
+    # natural land stats
     PctNat_CompWs <- PERCNAT + PERCWET
     PctNat_ProxWs <- PERCNAT_PR + PERCWET_PR
     Min_PctNat_CompWs_ProxWs <- min(PctNat_CompWs, PctNat_ProxWs)
     
     PctNat_CompBuf <- PERCNAT_ST + PERCWET_ST
     PctNat_ProxBuf <- PERCNAT_SP + PERCWET_SP
+    
+    # ag land stats
+    PctAg_CompWs <- PERCAG
+    PctAg_ProxWs <- PERCAG_PR
+    Max_PctAg_CompWs_ProxWs <- max(PctAg_CompWs, PctAg_ProxWs)
+    
+    PctAg_CompBuff <- PERCAG_ST
+    PctAg_ProxBuff <- PERCAG_SP
     
     ## per Appendix A Table A1 (2022 CALM)
     if (Area_SQ_MI >= 25 & Min_PctNat_CompWs_ProxWs > 80
@@ -103,6 +116,26 @@ shinyServer(function(input, output, session) {
       NatResult <- paste("Natural land cover does not meet NBC thresholds (i.e., anthropogenic influence is too great). "
                          , "Recommended answer: Yes")
 
+    }# if/else ~ END
+    
+    ## per MassDEP updates to Appendix A
+    #Max_PctAg_CompWs_ProxWs
+    #PctAg_CompWs - complete watershed
+    #PctAg_ProxWs - proximate watershed
+    #PctAg_CompBuff - complete buffer
+    #PctAg_ProxBuff - proximate buffer
+    if (Area_SQ_MI >= 25 & Max_PctAg_CompWs_ProxWs < 10
+        & PctAg_ProxBuff < 5) {
+      AgResult <- paste("Agricultural land cover does not exceed NBC thresholds. "
+                         , "Recommended answer: No")
+    } else if (Area_SQ_MI < 25 & Max_PctAg_CompWs_ProxWs < 10
+               & PctAg_CompBuff < 5) {
+      AgResult <- paste("Agricultural land cover does not exceed NBC thresholds. "
+                         , "Recommended answer: No")
+    } else {
+      AgResult <- paste("Agricultural land cover exceeds NBC thresholds (i.e., anthropogenic influence is too great). "
+                         , "Recommended answer: Yes")
+      
     }# if/else ~ END
   
     # point source counts
@@ -123,7 +156,7 @@ shinyServer(function(input, output, session) {
         HTML(paste(paste0("% Natural (Minimum of Watershed Scales): ", Min_PctNat_CompWs_ProxWs)
                    , paste0("% Natural (Proximate Stream Buffer): ",PctNat_ProxBuf)
                    , paste0("% Impervious: ", PercImp)
-                   # , paste0("Result: ", NatResult)
+                   , paste0("Result: ", AgResult)
                    , sep="<br/>"))
       })#renderUI ~ END
       output$output_LC_Results2 <- renderUI({ #Output: tab_Gen_output.R
@@ -146,6 +179,32 @@ shinyServer(function(input, output, session) {
                    , paste0("% Natural (Complete Stream Buffer): ",PctNat_CompBuf)
                    , paste0("% Impervious: ", PercImp)
                    # , paste0("Result: ", NatResult)
+                   , sep="<br/>"))
+      })#renderUI ~ END
+    }# if/else ~ END
+
+    if (Area_SQ_MI >= 25) {
+      output$output_Ag_Results1 <- renderUI({ #Output: tab_Gen_input.R
+        HTML(paste(paste0("% Ag (Maximum of Watershed Scales): ", Max_PctAg_CompWs_ProxWs)
+                   , paste0("% Ag (Proximate Stream Buffer): ",PctAg_ProxBuff)
+                   , paste0("Result: ", AgResult)
+                   , sep="<br/>"))
+      })#renderUI ~ END
+      output$output_Ag_Results2 <- renderUI({ #Output: tab_Gen_output.R
+        HTML(paste(paste0("% Ag (Maximum of Watershed Scales): ", Max_PctAg_CompWs_ProxWs)
+                   , paste0("% Ag (Proximate Stream Buffer): ",PctAg_ProxBuff)
+                   , sep="<br/>"))
+      })#renderUI ~ END
+    } else {
+      output$output_Ag_Results1 <- renderUI({ #Output: tab_Gen_input.R
+        HTML(paste(paste0("% Ag (Maximum of Watershed Scales): ", Max_PctAg_CompWs_ProxWs)
+                   , paste0("% Ag (Complete Stream Buffer): ",PctAg_CompBuff)
+                   , paste0("Result: ", AgResult)
+                   , sep="<br/>"))
+      })#renderUI ~ END
+      output$output_Ag_Results2 <- renderUI({ #Output: tab_Gen_output.R
+        HTML(paste(paste0("% Ag (Maximum of Watershed Scales): ", Max_PctAg_CompWs_ProxWs)
+                   , paste0("% Ag (Complete Stream Buffer): ",PctAg_CompBuff)
                    , sep="<br/>"))
       })#renderUI ~ END
     }# if/else ~ END
@@ -360,6 +419,22 @@ shinyServer(function(input, output, session) {
       }# if/else ~ END
     })#observeEvent ~ END
     
+    ### Ag Land ####
+    output$output_Ag_Land_choice1 <- renderText({input$input_Ag_Land_choice})
+    observeEvent(input$input_Ag_Land_choice, {
+      req(input$input_Ag_Land_choice != "")
+      
+      if (input$input_Ag_Land_choice == "No") {
+        output$output_Ag_Land_choice2 <- renderUI({
+          paste("Agricultural land cover is below NBC thresholds; continue NBC evaluation.")
+        })#renderUI ~ END
+      } else {
+        output$output_Ag_Land_choice2 <- renderUI({
+          paste("Agricultural land cover is above NBC thresholds; NBC determination excluded from further consideration.")
+        })#renderUI ~ END
+      }# if/else ~ END
+    })#observeEvent ~ END
+    
     ### Dams ####
     output$output_Dam_choice1 <- renderText({input$input_Dam_choice})
     observeEvent(input$input_Dam_choice, {
@@ -566,6 +641,7 @@ shinyServer(function(input, output, session) {
     
     observeEvent(ignoreInit = TRUE,c(
       input$input_Nat_Land_choice
+      ,input$input_Ag_Land_choice
       ,input$input_Dam_choice
       ,input$input_PtSrc_choice
       ,input$input_Withdrawal_choice
@@ -580,6 +656,7 @@ shinyServer(function(input, output, session) {
       ,input$input_geoMetal_choice
     ), {
       Question_Responses <- c(input$input_Nat_Land_choice
+                              ,input$input_Ag_Land_choice
                               ,input$input_Dam_choice
                               ,input$input_PtSrc_choice
                               ,input$input_Withdrawal_choice
