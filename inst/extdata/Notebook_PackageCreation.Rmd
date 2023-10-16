@@ -12,7 +12,8 @@ Package creation helper code chunks.
 Package related code.
 
 ## Create Package
-Use the code below to create the package.  Assumes you are in the development package directory
+
+Use the code below to create the package. Assumes you are in the development package directory
 
 ```{r, eval=FALSE}
 # NEWS
