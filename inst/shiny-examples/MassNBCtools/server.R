@@ -332,10 +332,14 @@ shinyServer(function(input, output, session) {
                        , fillOpacity = 1, fillColor = "#7fc97f", color = "black"
                        , opacity = 1, weight = 2
                        , label = GISlayer_TRIs$PRIMARY_NA, group = "TRIs"
-                       , popup = paste("<b> Primary Name:</b>", GISlayer_TRIs$PRIMARY_NA, "<br>"
-                                       ,"<b> Registry ID:</b>", GISlayer_TRIs$REGISTRY_I, "<br>"
-                                       ,"<b> Latitude:</b>", GISlayer_TRIs$LATITUDE83, "<br>"
-                                       ,"<b> Longitude:</b>", GISlayer_TRIs$LONGITUDE8)) %>%
+                       , popup = paste("<b> Facility Name:</b>", GISlayer_TRIs$TRI_Faci_1, "<br>"
+                                       ,"<b> Facility ID:</b>", GISlayer_TRIs$TRI_Facili, "<br>"
+                                       ,"<b> FRSID:</b>", GISlayer_TRIs$FRSID, "<br>"
+                                       ,"<b> Latest Year:</b>", GISlayer_TRIs$Latest_Yea, "<br>"
+                                       ,"<b> Street Address:</b>", GISlayer_TRIs$Street_Add, "<br>"
+                                       ,"<b> City:</b>", GISlayer_TRIs$City, "<br>"
+                                       ,"<b> Latitude:</b>", GISlayer_TRIs$Latitude, "<br>"
+                                       ,"<b> Longitude:</b>", GISlayer_TRIs$Longitude)) %>%
       addCircleMarkers(data = GISlayer_PWS_SW, radius = 7, stroke = TRUE
                        , fillOpacity = 1, fillColor = "#c51b7d", color = "black"
                          , opacity = 1, weight = 2

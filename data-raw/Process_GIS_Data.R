@@ -31,7 +31,7 @@ NPDES_shp <- sf::st_read(dsn = fn_shp, layer = "NPDES_Major") %>%
 object.size(NPDES_shp)
 
 ## TRIs ####
-TRIs_shp <- sf::st_read(dsn = fn_shp, layer = "TRIs") %>% 
+TRIs_shp <- sf::st_read(dsn = fn_shp, layer = "TRI_2012_2021_WaterLandRelease") %>% 
   sf::st_transform('+proj=longlat +datum=WGS84')
 object.size(TRIs_shp)
 

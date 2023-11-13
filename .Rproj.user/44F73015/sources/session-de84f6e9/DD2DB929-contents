@@ -28,8 +28,7 @@ Imports:
   leaflet,
   capture,
   sf,
-  stringr,
-  kableExtra
+  stringr
 VignetteBuilder: knitr
 URL: https://github.com/Blocktt/MassNBCtools
 Depends: 

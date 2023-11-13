@@ -21,6 +21,10 @@ knitr::opts_chunk$set(
 cat(paste0("Last Update: ",Sys.time()))
 ```
 
+# MassNBCtools 0.0.3.9012 (2023-11-13)
+
+-   update: Added new TRI layer provided by MassDEP
+
 # MassNBCtools 0.0.3.9011 (2023-10-16)
 
 -   update: completed fourth draft version

@@ -1,0 +1,27 @@
+{
+    "id": "835B71A8",
+    "path": "C:/Users/ben.block/OneDrive - Tetra Tech, Inc/GitHub/MassNBCtools/inst/shiny-examples/MassNBCtools/global.R",
+    "project_path": "inst/shiny-examples/MassNBCtools/global.R",
+    "type": "r_source",
+    "hash": "223459162",
+    "contents": "",
+    "dirty": false,
+    "created": 1699888142506.0,
+    "source_on_save": false,
+    "relative_order": 1,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "23,16",
+        "scrollLine": "16",
+        "docOutlineVisible": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1699888325,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1699888325239,
+    "read_only": false,
+    "read_only_alternatives": []
+}
